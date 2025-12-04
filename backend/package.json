@@ -1,0 +1,26 @@
+{
+  "name": "rumart-backend",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "next dev -p 4000",
+    "build": "next build",
+    "start": "next start -p 4000",
+    "pm2:dev": "pm2 start npm --name rumart-backend -- run dev",
+    "pm2:start": "pm2 start npm --name rumart-backend -- start",
+    "pm2:stop": "pm2 stop rumart-backend",
+    "pm2:restart": "pm2 restart rumart-backend",
+    "pm2:delete": "pm2 delete rumart-backend",
+    "pm2:logs": "pm2 logs rumart-backend",
+    "pm2:status": "pm2 status"
+  },
+  "dependencies": {
+    "next": "^14.1.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/react": "^18.2.7",
+    "typescript": "^5.3.3"
+  }
+}
