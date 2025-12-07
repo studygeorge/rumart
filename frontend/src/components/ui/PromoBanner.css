@@ -1,0 +1,25 @@
+.promo-banner {
+  background-color: #E53935;
+  color: #FFFFFF;
+  padding: var(--space-md) 0;
+  text-align: center;
+  position: relative;
+}
+
+.promo-banner-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.promo-banner-text {
+  font-size: var(--text-base);
+  font-weight: var(--font-semibold);
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .promo-banner-text {
+    font-size: var(--text-sm);
+  }
+}
