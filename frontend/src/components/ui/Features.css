@@ -1,57 +1,171 @@
 .features {
-  padding: var(--space-4xl) 0;
-  background-color: var(--white);
+  width: 100%;
+  padding: 60px 0;
+  background-color: #FFFFFF;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 24px;
 }
 
 .features-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: var(--space-xl);
-}
-
-@media (max-width: 768px) {
-  .features-grid {
-    grid-template-columns: 1fr;
-    gap: var(--space-lg);
-  }
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
 }
 
 .feature-card {
-  padding: var(--space-xl);
-  text-align: center;
-  background-color: var(--gray-50);
-  border-radius: var(--radius-xl);
-  transition: all var(--transition-base);
-  border: 1px solid transparent;
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  /* Зарезервировать место для избежания layout shift */
+  contain: layout;
 }
 
 .feature-card:hover {
-  background-color: #E8F4FF;
   transform: translateY(-4px);
-  box-shadow: var(--shadow-md);
-  border-color: rgba(0, 67, 156, 0.2);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
 }
 
-.feature-icon {
-  display: inline-flex;
-  color: #00439C;
-  margin-bottom: var(--space-md);
-  transition: transform var(--transition-base);
+/* Прямоугольная карточка - занимает всю ширину (2 колонки) */
+.feature-card-wide {
+  grid-column: span 2;
 }
 
-.feature-card:hover .feature-icon {
-  transform: scale(1.1);
+.feature-card-wide .feature-image {
+  aspect-ratio: 16 / 6;
+}
+
+/* Квадратная карточка - занимает 1 колонку */
+.feature-card-square {
+  grid-column: span 1;
+}
+
+.feature-card-square .feature-image {
+  aspect-ratio: 1 / 1;
+}
+
+.feature-image {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background: #F3F4F6;
+}
+
+.feature-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+  /* GPU-ускорение для плавной анимации */
+  will-change: transform;
+  /* Оптимизация рендеринга */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.feature-card:hover .feature-image img {
+  transform: scale(1.05);
+}
+
+/* Overlay с текстом поверх фото */
+.feature-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.4), transparent);
+  padding: 24px;
+  color: #FFFFFF;
+  transition: background 0.3s ease;
+}
+
+.feature-card:hover .feature-overlay {
+  background: linear-gradient(to top, rgba(0, 67, 156, 0.9), rgba(0, 67, 156, 0.5), transparent);
 }
 
 .feature-title {
-  font-size: var(--text-xl);
-  font-weight: var(--font-semibold);
-  color: #00439C;
-  margin-bottom: var(--space-sm);
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+  color: #FFFFFF;
 }
 
 .feature-description {
-  font-size: var(--text-base);
-  color: var(--gray-700);
-  line-height: var(--leading-relaxed);
+  font-size: 14px;
+  font-weight: 400;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.5;
+}
+
+/* Планшеты */
+@media (max-width: 1024px) {
+  .features {
+    padding: 48px 0;
+  }
+
+  .features-grid {
+    gap: 20px;
+  }
+
+  .feature-title {
+    font-size: 16px;
+  }
+
+  .feature-description {
+    font-size: 13px;
+  }
+
+  .feature-overlay {
+    padding: 20px;
+  }
+}
+
+/* Мобильные */
+@media (max-width: 768px) {
+  .features {
+    padding: 40px 0;
+  }
+
+  .container {
+    padding: 0 16px;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  /* На мобилке все карточки занимают полную ширину */
+  .feature-card-wide,
+  .feature-card-square {
+    grid-column: span 1;
+  }
+
+  /* Прямоугольные остаются прямоугольными */
+  .feature-card-wide .feature-image {
+    aspect-ratio: 16 / 9;
+  }
+
+  /* Квадратные становятся чуть менее квадратными для мобилки */
+  .feature-card-square .feature-image {
+    aspect-ratio: 4 / 3;
+  }
+
+  .feature-title {
+    font-size: 15px;
+  }
+
+  .feature-description {
+    font-size: 12px;
+  }
+
+  .feature-overlay {
+    padding: 16px;
+  }
 }
