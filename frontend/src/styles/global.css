@@ -12,12 +12,21 @@
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  /* Плавный скролл с momentum (особенно для iOS) */
+  -webkit-overflow-scrolling: touch;
 }
 
 body {
   min-height: 100vh;
   background-color: var(--white);
   overflow-x: hidden;
+  /* Плавная прокрутка */
+  scroll-behavior: smooth;
+}
+
+/* Плавный скролл для всех элементов */
+* {
+  scroll-behavior: smooth;
 }
 
 #root {
@@ -100,23 +109,37 @@ ol {
   display: none !important;
 }
 
-/* Скроллбар */
+/* Плавный элитарный скроллбар */
 ::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+  width: 12px;
+  height: 12px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--gray-100);
+  background: var(--gray-50);
+  border-left: 1px solid var(--gray-200);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--gray-300);
-  border-radius: var(--radius-full);
+  background: linear-gradient(180deg, var(--primary-blue) 0%, var(--accent-blue) 100%);
+  border-radius: 6px;
+  border: 2px solid var(--gray-50);
+  transition: all 0.3s ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--gray-400);
+  background: linear-gradient(180deg, var(--primary-blue-hover) 0%, var(--primary-blue) 100%);
+  border-color: var(--gray-100);
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: var(--dark-blue);
+}
+
+/* Для Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary-blue) var(--gray-50);
 }
 
 /* Selection */
@@ -141,5 +164,11 @@ ol {
   
   h3 {
     font-size: var(--text-2xl);
+  }
+
+  /* Тоньше скроллбар на мобильных */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
   }
 }
