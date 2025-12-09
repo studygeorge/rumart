@@ -1,62 +1,102 @@
 import React from 'react'
 import './Features.css'
 
-const features = [
+interface Feature {
+  id: number
+  image: string
+  title: string
+  description: string
+  type: 'wide' | 'square'
+  link?: string
+}
+
+const features: Feature[] = [
   {
-    icon: (
-      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-        <rect x="1" y="3" width="15" height="13"/>
-        <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/>
-        <circle cx="5.5" cy="18.5" r="2.5"/>
-        <circle cx="18.5" cy="18.5" r="2.5"/>
-      </svg>
-    ),
+    id: 1,
+    image: '/images/banners/banner_1.jpg',
     title: 'Быстрая доставка',
-    description: 'Доставка по Москве в день заказа'
+    description: 'Доставка по Москве в день заказа',
+    type: 'square'
   },
   {
-    icon: (
-      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-      </svg>
-    ),
+    id: 2,
+    image: '/images/banners/banner_2.jpg',
     title: 'Официальная гарантия',
-    description: 'Гарантия производителя на все товары'
+    description: 'Гарантия производителя на все товары',
+    type: 'square'
   },
   {
-    icon: (
-      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-        <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
-        <line x1="1" y1="10" x2="23" y2="10"/>
-      </svg>
-    ),
+    id: 3,
+    image: '/images/banners/banner_1.jpg',
     title: 'Удобная оплата',
-    description: 'Оплата наличными или картой'
+    description: 'Оплата наличными или картой любого банка',
+    type: 'wide'
   },
   {
-    icon: (
-      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-        <path d="M20 12v8H4v-8"/>
-        <rect x="2" y="6" width="20" height="6"/>
-        <path d="M12 2v4"/>
-        <path d="M12 6v4"/>
-      </svg>
-    ),
+    id: 4,
+    image: '/images/banners/banner_2.jpg',
     title: 'Бонусная программа',
-    description: 'Накопительные скидки для постоянных клиентов'
+    description: 'Накопительные скидки для постоянных клиентов',
+    type: 'square'
+  },
+  {
+    id: 5,
+    image: '/images/banners/banner_1.jpg',
+    title: 'Техподдержка 24/7',
+    description: 'Всегда на связи для решения ваших вопросов',
+    type: 'square'
+  },
+  {
+    id: 6,
+    image: '/images/banners/banner_2.jpg',
+    title: 'Трейд-ин',
+    description: 'Обменяйте старую технику на новую с выгодой',
+    type: 'wide'
+  },
+  {
+    id: 7,
+    image: '/images/banners/banner_1.jpg',
+    title: 'Эксклюзивные предложения',
+    description: 'Специальные цены только для наших клиентов',
+    type: 'square'
+  },
+  {
+    id: 8,
+    image: '/images/banners/banner_2.jpg',
+    title: 'Сервисный центр',
+    description: 'Профессиональный ремонт и обслуживание',
+    type: 'square'
   }
 ]
 
 const Features: React.FC = () => {
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    e.currentTarget.src = '/images/banners/placeholder.jpg'
+  }
+
   return (
-    <section id="features" className="features">
+    <section className="features">
       <div className="container">
         <div className="features-grid">
           {features.map((feature, index) => (
-            <div key={index} className="feature-card animate-slideUp">
-              <div className="feature-icon">{feature.icon}</div>
-              <h3 className="feature-title">{feature.title}</h3>
-              <p className="feature-description">{feature.description}</p>
+            <div 
+              key={feature.id} 
+              className={`feature-card feature-card-${feature.type}`}
+            >
+              <div className="feature-image">
+                <img 
+                  src={feature.image} 
+                  alt={feature.title}
+                  onError={handleImageError}
+                  loading={index < 3 ? 'eager' : 'lazy'}
+                  decoding="async"
+                  fetchPriority={index < 2 ? 'high' : 'low'}
+                />
+                <div className="feature-overlay">
+                  <h3 className="feature-title">{feature.title}</h3>
+                  <p className="feature-description">{feature.description}</p>
+                </div>
+              </div>
             </div>
           ))}
         </div>
