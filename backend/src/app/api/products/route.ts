@@ -1,3 +1,4 @@
+// backend/src/app/api/products/route.ts
 import { NextResponse } from 'next/server'
 
 const products = [
@@ -12,11 +13,17 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
-  const body = await request.json()
+  const rawBody = await request.json()
+  const body = rawBody as { name?: string; price?: number; category?: string; inStock?: boolean }
+  
   const newProduct = {
     id: String(products.length + 1),
-    ...body
+    name: body.name || '',
+    price: body.price || 0,
+    category: body.category || '',
+    inStock: body.inStock ?? true
   }
+  
   products.push(newProduct)
   return NextResponse.json({ product: newProduct }, { status: 201 })
 }

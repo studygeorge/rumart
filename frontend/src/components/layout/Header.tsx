@@ -7,7 +7,6 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ cartItemsCount = 0 }) => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
   const [activeCategory, setActiveCategory] = useState<string | null>(null)
 
@@ -22,6 +21,13 @@ const Header: React.FC<HeaderProps> = ({ cartItemsCount = 0 }) => {
     { id: 'travel', label: 'Путешествия и спорт' },
     { id: 'accessories', label: 'Аксессуары' }
   ]
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (searchQuery.trim()) {
+      window.location.href = `/search?q=${encodeURIComponent(searchQuery)}`
+    }
+  }
 
   return (
     <>
@@ -55,7 +61,7 @@ const Header: React.FC<HeaderProps> = ({ cartItemsCount = 0 }) => {
               </a>
 
               {/* Search */}
-              <div className="search-box">
+              <form onSubmit={handleSearch} className="search-box">
                 <input
                   type="text"
                   className="search-input"
@@ -63,13 +69,13 @@ const Header: React.FC<HeaderProps> = ({ cartItemsCount = 0 }) => {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
-                <button className="search-btn" aria-label="Поиск">
+                <button type="submit" className="search-btn" aria-label="Поиск">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <circle cx="11" cy="11" r="8"/>
                     <path d="m21 21-4.35-4.35"/>
                   </svg>
                 </button>
-              </div>
+              </form>
 
               {/* Quick Links */}
               <nav className="quick-links">
@@ -82,28 +88,28 @@ const Header: React.FC<HeaderProps> = ({ cartItemsCount = 0 }) => {
 
               {/* Actions */}
               <div className="header-actions">
-                <button className="icon-btn" aria-label="Профиль">
+                <a href="/profile" className="icon-btn" aria-label="Профиль">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
                     <circle cx="12" cy="7" r="4"/>
                   </svg>
-                </button>
+                </a>
 
-                <button className="icon-btn" aria-label="Избранное">
+                <a href="/favorites" className="icon-btn" aria-label="Избранное">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
                   </svg>
-                </button>
+                </a>
 
-                <button className="icon-btn" aria-label="Сравнение">
+                <a href="/compare" className="icon-btn" aria-label="Сравнение">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <line x1="18" y1="20" x2="18" y2="10"/>
                     <line x1="12" y1="20" x2="12" y2="4"/>
                     <line x1="6" y1="20" x2="6" y2="14"/>
                   </svg>
-                </button>
+                </a>
 
-                <button className="icon-btn cart-btn" aria-label="Корзина">
+                <a href="/cart" className="icon-btn cart-btn" aria-label="Корзина">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <circle cx="9" cy="21" r="1"/>
                     <circle cx="20" cy="21" r="1"/>
@@ -112,7 +118,7 @@ const Header: React.FC<HeaderProps> = ({ cartItemsCount = 0 }) => {
                   {cartItemsCount > 0 && (
                     <span className="cart-badge">{cartItemsCount}</span>
                   )}
-                </button>
+                </a>
               </div>
             </div>
           </div>
@@ -136,7 +142,7 @@ const Header: React.FC<HeaderProps> = ({ cartItemsCount = 0 }) => {
                   </a>
                 </div>
               ))}
-              <button className="category-link category-services">
+              <a href="/services" className="category-link category-services">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '4px' }}>
                   <rect x="3" y="3" width="7" height="7"/>
                   <rect x="14" y="3" width="7" height="7"/>
@@ -144,7 +150,7 @@ const Header: React.FC<HeaderProps> = ({ cartItemsCount = 0 }) => {
                   <rect x="3" y="14" width="7" height="7"/>
                 </svg>
                 Сервисы
-              </button>
+              </a>
             </nav>
           </div>
 

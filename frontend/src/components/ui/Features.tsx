@@ -1,3 +1,4 @@
+// frontend/src/components/sections/Features.tsx
 import React from 'react'
 import './Features.css'
 
@@ -90,7 +91,7 @@ const Features: React.FC = () => {
                   onError={handleImageError}
                   loading={index < 3 ? 'eager' : 'lazy'}
                   decoding="async"
-                  fetchPriority={index < 2 ? 'high' : 'low'}
+                  {...(index < 2 && { fetchpriority: 'high' as any })}
                 />
                 <div className="feature-overlay">
                   <h3 className="feature-title">{feature.title}</h3>

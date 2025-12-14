@@ -1,0 +1,241 @@
+// Генератор Prisma Client
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Подключение к PostgreSQL
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Роли пользователей
+enum UserRole {
+  USER
+  ADMIN
+  MODERATOR
+}
+
+// Статусы заказа
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+
+// Модель пользователя
+model User {
+  id              String    @id @default(cuid())
+  email           String    @unique
+  phone           String    @unique
+  passwordHash    String
+  firstName       String?
+  lastName        String?
+  role            UserRole  @default(USER)
+  isEmailVerified Boolean   @default(false)
+  isPhoneVerified Boolean   @default(false)
+  
+  // Быстрый вход
+  pinCode         String?   // PIN-код для быстрого входа (хешированный)
+  pinEnabled      Boolean   @default(false)
+  
+  // Связи
+  orders          Order[]
+  reviews         Review[]
+  cart            Cart?
+  favorites       Favorite[]
+  sessions        Session[]
+  
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
+  @@map("users")
+}
+
+// Модель сессий для отслеживания устройств
+model Session {
+  id            String    @id @default(cuid())
+  userId        String
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  deviceId      String    // Уникальный ID устройства
+  deviceName    String?   // Название устройства
+  ipAddress     String?
+  userAgent     String?
+  
+  refreshToken  String    @unique
+  expiresAt     DateTime
+  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  @@unique([userId, deviceId])
+  @@map("sessions")
+}
+
+// Модель категории
+model Category {
+  id          String      @id @default(cuid())
+  name        String
+  slug        String      @unique
+  description String?
+  image       String?
+  parentId    String?
+  parent      Category?   @relation("CategoryToCategory", fields: [parentId], references: [id])
+  children    Category[]  @relation("CategoryToCategory")
+  
+  // Связи
+  products    Product[]
+  
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  
+  @@map("categories")
+}
+
+// Модель товара
+model Product {
+  id             String      @id @default(cuid())
+  name           String
+  slug           String      @unique
+  description    String?
+  price          Float
+  oldPrice       Float?
+  image          String
+  images         String[]
+  stock          Int         @default(0)
+  isAvailable    Boolean     @default(true)
+  isFeatured     Boolean     @default(false)
+  isNew          Boolean     @default(false)
+  
+  // Характеристики
+  brand          String?
+  model          String?
+  specifications Json?
+  
+  // Связи
+  categoryId     String
+  category       Category    @relation(fields: [categoryId], references: [id])
+  reviews        Review[]
+  orderItems     OrderItem[]
+  cartItems      CartItem[]
+  favorites      Favorite[]
+  
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+  
+  @@map("products")
+}
+
+// Модель отзыва
+model Review {
+  id        String   @id @default(cuid())
+  rating    Int
+  comment   String?
+  
+  // Связи
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@unique([userId, productId])
+  @@map("reviews")
+}
+
+// Модель заказа
+model Order {
+  id              String      @id @default(cuid())
+  orderNumber     String      @unique
+  status          OrderStatus @default(PENDING)
+  totalAmount     Float
+  
+  // Информация о доставке
+  deliveryAddress String
+  deliveryCity    String
+  deliveryZip     String?
+  phone           String
+  email           String
+  
+  // Связи
+  userId          String
+  user            User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items           OrderItem[]
+  
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  
+  @@map("orders")
+}
+
+// Модель позиции заказа
+model OrderItem {
+  id        String   @id @default(cuid())
+  quantity  Int
+  price     Float
+  
+  // Связи
+  orderId   String
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product  @relation(fields: [productId], references: [id])
+  
+  createdAt DateTime @default(now())
+  
+  @@map("order_items")
+}
+
+// Модель корзины
+model Cart {
+  id        String     @id @default(cuid())
+  
+  // Связи
+  userId    String     @unique
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items     CartItem[]
+  
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  
+  @@map("carts")
+}
+
+// Модель позиции корзины
+model CartItem {
+  id        String   @id @default(cuid())
+  quantity  Int
+  
+  // Связи
+  cartId    String
+  cart      Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@unique([cartId, productId])
+  @@map("cart_items")
+}
+
+// Модель избранного
+model Favorite {
+  id        String   @id @default(cuid())
+  
+  // Связи
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime @default(now())
+  
+  @@unique([userId, productId])
+  @@map("favorites")
+}
