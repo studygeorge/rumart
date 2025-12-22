@@ -1,0 +1,217 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+.accessories-menu {
+  display: grid;
+  grid-template-columns: 200px 1fr 380px;
+  background-color: #FFFFFF;
+  font-family: 'Inter', sans-serif;
+  min-height: 420px;
+}
+
+/* Левая часть - основные категории */
+.accessories-menu-sidebar {
+  background-color: #FFFFFF;
+  padding: 12px 0;
+  border-right: 1px solid #E5E7EB;
+}
+
+.accessories-menu-main-category {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  position: relative;
+}
+
+.accessories-menu-main-category:hover {
+  background-color: #F9FAFB;
+  color: #000000;
+}
+
+.accessories-menu-main-category-main {
+  color: #000000;
+  font-weight: 700;
+  cursor: default;
+}
+
+.accessories-menu-main-category-main:hover {
+  background-color: transparent;
+}
+
+.accessories-menu-main-category-active {
+  background-color: #F9FAFB;
+  color: #000000;
+  font-weight: 700;
+}
+
+.accessories-menu-main-category-active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background-color: #00439C;
+}
+
+.accessories-menu-main-category svg {
+  width: 10px;
+  height: 10px;
+  color: #9CA3AF;
+  flex-shrink: 0;
+}
+
+/* Центральная часть - динамический контент в один столбец */
+.accessories-menu-content {
+  padding: 24px 32px;
+  background-color: #FFFFFF;
+}
+
+.accessories-menu-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.accessories-menu-section-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: #000000;
+  margin: 0 0 8px 0;
+  letter-spacing: -0.02em;
+}
+
+.accessories-menu-links {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.accessories-menu-link {
+  font-size: 12px;
+  font-weight: 600;
+  color: #6B7280;
+  text-decoration: none;
+  padding: 5px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.15s ease;
+  line-height: 1.4;
+}
+
+.accessories-menu-link:hover {
+  color: #00439C;
+  padding-left: 4px;
+}
+
+.accessories-menu-badge {
+  display: inline-block;
+  padding: 2px 6px;
+  background-color: #FEE2E2;
+  color: #DC2626;
+  font-size: 8px;
+  font-weight: 700;
+  border-radius: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Правая часть - промо */
+.accessories-menu-promo {
+  padding: 24px 32px;
+  background-color: #FFFFFF;
+  border-left: 1px solid #E5E7EB;
+}
+
+.accessories-menu-promo-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #000000;
+  margin: 0 0 16px 0;
+}
+
+.accessories-menu-promo-banner {
+  background: linear-gradient(135deg, #059669 0%, #047857 50%, #065F46 100%);
+  border-radius: 12px;
+  overflow: hidden;
+  height: 100%;
+  min-height: 360px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.accessories-menu-promo-content {
+  padding: 24px;
+  position: relative;
+  z-index: 2;
+}
+
+.accessories-menu-promo-heading {
+  font-size: 20px;
+  font-weight: 800;
+  color: #FFFFFF;
+  margin: 0 0 4px 0;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.accessories-menu-promo-subtitle {
+  font-size: 13px;
+  font-weight: 600;
+  color: #FFFFFF;
+  margin: 0;
+  opacity: 0.95;
+  line-height: 1.4;
+}
+
+.accessories-menu-promo-image-wrapper {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  height: 75%;
+  z-index: 1;
+}
+
+.accessories-menu-promo-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: bottom right;
+}
+
+@media (max-width: 1400px) {
+  .accessories-menu {
+    grid-template-columns: 180px 1fr 340px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .accessories-menu {
+    grid-template-columns: 160px 1fr 300px;
+  }
+}
+
+@media (max-width: 768px) {
+  .accessories-menu {
+    grid-template-columns: 1fr;
+  }
+
+  .accessories-menu-sidebar,
+  .accessories-menu-promo {
+    display: none;
+  }
+
+  .accessories-menu-content {
+    padding: 20px;
+  }
+}

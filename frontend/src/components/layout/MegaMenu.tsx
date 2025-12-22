@@ -1,85 +1,52 @@
 import React from 'react'
 import './MegaMenu.css'
+import AppleMenu from './megamenu/AppleMenu'
+import SmartphonesMenu from './megamenu/SmartphonesMenu'
+import ComputersMenu from './megamenu/ComputersMenu'
+import TvAudioMenu from './megamenu/TvAudioMenu'
+import HomeMenu from './megamenu/HomeMenu'
+import BeautyMenu from './megamenu/BeautyMenu'
+import EntertainmentMenu from './megamenu/EntertainmentMenu'
+import TravelMenu from './megamenu/TravelMenu'
+import AccessoriesMenu from './megamenu/AccessoriesMenu'
 
 interface MegaMenuProps {
   category: string
   isOpen: boolean
 }
 
-const megaMenuData: Record<string, any> = {
-  apple: {
-    title: 'Apple',
-    sections: [
-      {
-        title: 'iPhone',
-        items: ['iPhone 17 Pro Max', 'iPhone 17 Pro', 'iPhone Air', 'iPhone 17', 'iPhone 16 Pro Max', 'iPhone 16 Pro', 'iPhone 16 | 16 Plus | 16e', 'iPhone 15 Pro | 15 Pro Max', 'iPhone 15 | 15 Plus', 'Все модели iPhone', 'Аксессуары', 'Сравнить']
-      },
-      {
-        title: 'Mac',
-        items: ['MacBook Air', 'MacBook Pro', 'iMac', 'Mac mini', 'Mac Studio', 'Mac Pro', 'Все модели Mac', 'Аксессуары']
-      },
-      {
-        title: 'iPad',
-        items: ['iPad Pro', 'iPad Air', 'iPad', 'iPad mini', 'Все модели iPad', 'Аксессуары']
-      },
-      {
-        title: 'Watch',
-        items: ['Apple Watch Ultra', 'Apple Watch Series', 'Apple Watch SE', 'Все модели Watch', 'Аксессуары']
-      }
-    ]
-  },
-  smartphones: {
-    title: 'Смартфоны и гаджеты',
-    sections: [
-      {
-        title: 'Смартфоны',
-        items: ['Apple iPhone', 'Samsung', 'Xiaomi', 'Google Pixel', 'ASUS', 'Honor', 'Realme']
-      },
-      {
-        title: 'Гаджеты',
-        items: ['Умные часы', 'Фитнес-браслеты', 'Электронные книги', 'Портативные колонки']
-      }
-    ]
-  },
-  computers: {
-    title: 'Компьютеры и ноутбуки',
-    sections: [
-      {
-        title: 'Ноутбуки',
-        items: ['MacBook', 'ASUS', 'Dell', 'Lenovo', 'HP', 'MSI', 'Игровые ноутбуки']
-      },
-      {
-        title: 'Компьютеры',
-        items: ['iMac', 'Mac mini', 'Готовые ПК', 'Моноблоки']
-      }
-    ]
-  }
-}
-
 const MegaMenu: React.FC<MegaMenuProps> = ({ category, isOpen }) => {
-  const menuData = megaMenuData[category]
+  if (!isOpen) return null
 
-  if (!menuData || !isOpen) return null
+  const renderCategoryContent = () => {
+    switch (category) {
+      case 'apple':
+        return <AppleMenu />
+      case 'smartphones':
+        return <SmartphonesMenu />
+      case 'computers':
+        return <ComputersMenu />
+      case 'tv-audio':
+        return <TvAudioMenu />
+      case 'home':
+        return <HomeMenu />
+      case 'beauty':
+        return <BeautyMenu />
+      case 'entertainment':
+        return <EntertainmentMenu />
+      case 'travel':
+        return <TravelMenu />
+      case 'accessories':
+        return <AccessoriesMenu />
+      default:
+        return null
+    }
+  }
 
   return (
     <div className="mega-menu">
-      <div className="container">
-        <div className="mega-menu-content">
-          {menuData.sections.map((section: any, index: number) => (
-            <div key={index} className="mega-menu-section">
-              <h4 className="mega-menu-title">{section.title}</h4>
-              <ul className="mega-menu-list">
-                {section.items.map((item: string, itemIndex: number) => (
-                  <li key={itemIndex}>
-                    <a href={`/catalog/${category}/${item}`} className="mega-menu-link">
-                      {item}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
+      <div className="mega-menu-container">
+        {renderCategoryContent()}
       </div>
     </div>
   )

@@ -1,15 +1,15 @@
-.categories-section {
+.main-categories-section {
   width: 100%;
   padding: 60px 0;
   background: #FFFFFF;
 }
 
-.categories-container {
+.main-categories-container {
   max-width: 100%;
   padding: 0;
 }
 
-.categories-section h2 {
+.main-categories-section h2 {
   font-size: 32px;
   font-weight: 700;
   margin-bottom: 32px;
@@ -17,13 +17,13 @@
   padding: 0 24px;
 }
 
-.categories-grid {
+.main-categories-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 0;
 }
 
-.category-card {
+.main-category-card {
   position: relative;
   background: #FFFFFF;
   border: 1px solid #E5E7EB;
@@ -33,22 +33,20 @@
   transition: box-shadow 0.3s ease;
 }
 
-/* Восстанавливаем правую границу для последних в ряду */
-.category-card:nth-child(4n) {
+.main-category-card:nth-child(4n) {
   border-right: 1px solid #E5E7EB;
 }
 
-/* Восстанавливаем нижнюю границу для последнего ряда */
-.category-card:nth-last-child(-n+4) {
+.main-category-card:nth-last-child(-n+4) {
   border-bottom: 1px solid #E5E7EB;
 }
 
-.category-card:hover {
+.main-category-card:hover {
   z-index: 100;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
-.category-link {
+.main-category-link {
   display: block;
   text-decoration: none;
   width: 100%;
@@ -56,34 +54,34 @@
   position: relative;
 }
 
-.category-card-image {
+.main-category-card-image {
   width: 100%;
-  aspect-ratio: 16 / 9; /* Изменено с 1 (квадрат) на 16/9 (прямоугольник) */
+  aspect-ratio: 16 / 9;
   overflow: hidden;
   background: #FFFFFF;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 40px 60px; /* Горизонтальный padding больше */
+  padding: 40px 60px;
 }
 
-.category-card-image img {
+.main-category-card-image img {
   width: 100%;
   height: 100%;
   object-fit: contain;
 }
 
-.category-card-content {
+.main-category-card-content {
   padding: 12px 20px;
   text-align: center;
   background: #FFFFFF;
-  min-height: 50px; /* Уменьшен с 60px */
+  min-height: 50px;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
-.category-card-title {
+.main-category-card-title {
   font-size: 12px;
   font-weight: 600;
   color: #111827;
@@ -91,7 +89,7 @@
 }
 
 /* Подкатегории при наведении - идеально вровень с карточкой */
-.category-subcategories {
+.main-category-subcategories {
   position: absolute;
   top: 100%;
   left: -1px;
@@ -106,10 +104,10 @@
   border-top: none;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
   z-index: 101;
-  animation: fadeIn 0.3s ease;
+  animation: mainCategoryFadeIn 0.3s ease;
 }
 
-@keyframes fadeIn {
+@keyframes mainCategoryFadeIn {
   from {
     opacity: 0;
     transform: translateY(-5px);
@@ -120,7 +118,7 @@
   }
 }
 
-.subcategory-link {
+.main-subcategory-link {
   color: #6B7280;
   text-decoration: none;
   font-size: 10px;
@@ -130,55 +128,55 @@
   background: transparent;
 }
 
-.subcategory-link:hover {
+.main-subcategory-link:hover {
   color: #00439C;
 }
 
 /* Планшеты */
 @media (max-width: 1024px) {
-  .categories-grid {
+  .main-categories-grid {
     grid-template-columns: repeat(3, 1fr);
   }
 
-  .category-card:nth-child(4n) {
+  .main-category-card:nth-child(4n) {
     border-right: none;
   }
 
-  .category-card:nth-child(3n) {
+  .main-category-card:nth-child(3n) {
     border-right: 1px solid #E5E7EB;
   }
 
-  .category-card:nth-last-child(-n+4) {
+  .main-category-card:nth-last-child(-n+4) {
     border-bottom: none;
   }
 
-  .category-card:nth-last-child(-n+3) {
+  .main-category-card:nth-last-child(-n+3) {
     border-bottom: 1px solid #E5E7EB;
   }
 
-  .categories-section h2 {
+  .main-categories-section h2 {
     font-size: 28px;
     margin-bottom: 24px;
   }
 
-  .category-card-content {
+  .main-category-card-content {
     padding: 10px 16px;
     min-height: 45px;
   }
 
-  .category-card-title {
+  .main-category-card-title {
     font-size: 11px;
   }
 
-  .category-card-image {
+  .main-category-card-image {
     padding: 30px 50px;
   }
 
-  .subcategory-link {
+  .main-subcategory-link {
     font-size: 9px;
   }
 
-  .category-subcategories {
+  .main-category-subcategories {
     gap: 10px;
     padding: 12px 15px;
   }
@@ -186,57 +184,54 @@
 
 /* Мобильные */
 @media (max-width: 768px) {
-  .categories-section {
+  .main-categories-section {
     padding: 40px 0;
   }
 
-  .categories-section h2 {
+  .main-categories-section h2 {
     padding: 0 16px;
-  }
-
-  .categories-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .category-card:nth-child(3n) {
-    border-right: none;
-  }
-
-  .category-card:nth-child(2n) {
-    border-right: 1px solid #E5E7EB;
-  }
-
-  .category-card:nth-last-child(-n+3) {
-    border-bottom: none;
-  }
-
-  .category-card:nth-last-child(-n+2) {
-    border-bottom: 1px solid #E5E7EB;
-  }
-
-  .categories-section h2 {
     font-size: 24px;
     margin-bottom: 20px;
   }
 
-  .category-card-content {
+  .main-categories-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .main-category-card:nth-child(3n) {
+    border-right: none;
+  }
+
+  .main-category-card:nth-child(2n) {
+    border-right: 1px solid #E5E7EB;
+  }
+
+  .main-category-card:nth-last-child(-n+3) {
+    border-bottom: none;
+  }
+
+  .main-category-card:nth-last-child(-n+2) {
+    border-bottom: 1px solid #E5E7EB;
+  }
+
+  .main-category-card-content {
     padding: 8px 12px;
     min-height: 40px;
   }
 
-  .category-card-title {
+  .main-category-card-title {
     font-size: 10px;
   }
 
-  .category-card-image {
+  .main-category-card-image {
     padding: 25px 40px;
   }
 
-  .subcategory-link {
+  .main-subcategory-link {
     font-size: 9px;
   }
 
-  .category-subcategories {
+  .main-category-subcategories {
     gap: 8px;
     padding: 10px 12px;
   }

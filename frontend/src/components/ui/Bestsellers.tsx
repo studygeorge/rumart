@@ -77,6 +77,13 @@ const Bestsellers: React.FC = () => {
     e.currentTarget.src = '/images/products/placeholder.jpg'
   }
 
+  const handleAddToCart = (e: React.MouseEvent, productId: number) => {
+    e.preventDefault()
+    e.stopPropagation()
+    console.log('Добавить в корзину:', productId)
+    // Здесь будет логика добавления в корзину
+  }
+
   return (
     <section className="bestsellers-section">
       <div className="bestsellers-container">
@@ -84,30 +91,37 @@ const Bestsellers: React.FC = () => {
         
         <div className="bestsellers-grid">
           {bestsellers.map((product) => (
-            <a 
+            <div 
               key={product.id} 
-              href={`/product/${product.id}`} 
-              className="product-card"
+              className="bestseller-product-card"
             >
               {product.badge && (
-                <span className="product-badge">{product.badge}</span>
+                <span className="bestseller-product-badge">{product.badge}</span>
               )}
               
-              <div className="product-image">
-                <img 
-                  src={product.image} 
-                  alt={product.name}
-                  onError={handleImageError}
-                  loading="lazy"
-                />
-              </div>
+              <a href={`/product/${product.id}`} className="bestseller-product-link">
+                <div className="bestseller-product-image">
+                  <img 
+                    src={product.image} 
+                    alt={product.name}
+                    onError={handleImageError}
+                    loading="lazy"
+                  />
+                </div>
+                
+                <div className="bestseller-product-info">
+                  <h3 className="bestseller-product-name">{product.name}</h3>
+                  <p className="bestseller-product-price">{formatPrice(product.price)}</p>
+                </div>
+              </a>
               
-              <div className="product-info">
-                <h3 className="product-name">{product.name}</h3>
-                <p className="product-price">{formatPrice(product.price)}</p>
-                <button className="product-button">В корзину</button>
-              </div>
-            </a>
+              <button 
+                className="bestseller-product-button"
+                onClick={(e) => handleAddToCart(e, product.id)}
+              >
+                В корзину
+              </button>
+            </div>
           ))}
         </div>
       </div>

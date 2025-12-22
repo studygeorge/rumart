@@ -7,7 +7,6 @@
     "build": "next build",
     "start": "next start -p 4000",
     "lint": "next lint",
-    
     "pm2:dev": "pm2 start npm --name rumart-backend -- run dev",
     "pm2:start": "pm2 start npm --name rumart-backend -- start",
     "pm2:stop": "pm2 stop rumart-backend",
@@ -15,7 +14,6 @@
     "pm2:delete": "pm2 delete rumart-backend",
     "pm2:logs": "pm2 logs rumart-backend",
     "pm2:status": "pm2 status",
-    
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev --name init",
     "prisma:studio": "prisma studio",
@@ -27,35 +25,37 @@
     "db:setup": "npm run prisma:generate && npm run prisma:migrate && npm run prisma:seed"
   },
   "dependencies": {
+    "@prisma/client": "^5.22.0",
+    "axios": "^1.13.2",
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "dotenv": "^16.4.5",
+    "express-rate-limit": "^7.1.5",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1",
     "next": "^14.1.0",
+    "nodemailer": "^6.9.15",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "@prisma/client": "^5.22.0",
-    "bcryptjs": "^2.4.3",
-    "jsonwebtoken": "^9.0.2",
-    "zod": "^3.23.8",
-    "dotenv": "^16.4.5",
-    "cors": "^2.8.5",
-    "express-rate-limit": "^7.1.5",
-    "multer": "^1.4.5-lts.1",
     "sharp": "^0.33.5",
-    "nodemailer": "^6.9.15",
-    "cookie-parser": "^1.4.6"
+    "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@types/node": "^20.11.0",
-    "@types/react": "^18.2.7",
     "@types/bcryptjs": "^2.4.6",
-    "@types/jsonwebtoken": "^9.0.7",
-    "@types/cors": "^2.8.17",
-    "@types/multer": "^1.4.12",
-    "@types/nodemailer": "^6.4.16",
     "@types/cookie-parser": "^1.4.7",
-    "typescript": "^5.3.3",
+    "@types/cors": "^2.8.17",
+    "@types/jsonwebtoken": "^9.0.7",
+    "@types/multer": "^1.4.12",
+    "@types/node": "^20.11.0",
+    "@types/nodemailer": "^6.4.16",
+    "@types/react": "^18.2.7",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "^14.1.0",
     "prisma": "^5.22.0",
     "tsx": "^4.19.0",
-    "eslint": "^8.57.0",
-    "eslint-config-next": "^14.1.0"
+    "typescript": "^5.3.3"
   },
   "prisma": {
     "seed": "tsx prisma/seeds/index.ts"

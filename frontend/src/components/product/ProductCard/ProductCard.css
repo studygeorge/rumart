@@ -1,0 +1,124 @@
+.pcard {
+  display: flex;
+  flex-direction: column;
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 12px;
+  overflow: hidden;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.pcard:hover {
+  border-color: #00439C;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  transform: translateY(-4px);
+}
+
+.pcard-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: #EF4444;
+  color: #FFFFFF;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 6px;
+  z-index: 1;
+}
+
+.pcard-image {
+  width: 100%;
+  aspect-ratio: 1;
+  background: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+.pcard-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.pcard-no-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.pcard-no-image svg {
+  color: #D1D5DB;
+}
+
+.pcard-info {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+}
+
+.pcard-title {
+  font-size: 15px;
+  font-weight: 500;
+  color: #111827;
+  margin: 0;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 42px;
+}
+
+.pcard-price-block {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: auto;
+}
+
+.pcard-price {
+  font-size: 20px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.pcard-old-price {
+  font-size: 14px;
+  color: #9CA3AF;
+  text-decoration: line-through;
+}
+
+.pcard-out-of-stock {
+  font-size: 13px;
+  color: #EF4444;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .pcard-image {
+    padding: 20px;
+  }
+
+  .pcard-info {
+    padding: 16px;
+  }
+
+  .pcard-title {
+    font-size: 14px;
+    min-height: 40px;
+  }
+
+  .pcard-price {
+    font-size: 18px;
+  }
+}

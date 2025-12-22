@@ -1,21 +1,21 @@
 export interface User {
   id: string
   email: string
-  phone: string
-  firstName?: string
-  lastName?: string
-  role: string
+  phone: string | null
+  firstName: string | null
+  lastName: string | null
+  role: 'USER' | 'ADMIN'
   pinEnabled: boolean
 }
 
-export interface AuthTokens {
+export interface Tokens {
   accessToken: string
   refreshToken: string
 }
 
 export interface AuthResponse {
   user: User
-  tokens: AuthTokens
+  tokens: Tokens
 }
 
 export interface RegisterData {
@@ -36,8 +36,10 @@ export interface LoginData {
 }
 
 export interface PinLoginData {
+  phone: string
   pinCode: string
   deviceId: string
+  deviceName?: string
 }
 
 export interface SetPinData {

@@ -1,0 +1,217 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+.apple-menu {
+  display: grid;
+  grid-template-columns: 200px 1fr 380px;
+  background-color: #FFFFFF;
+  font-family: 'Inter', sans-serif;
+  min-height: 420px;
+}
+
+/* Левая часть - основные категории */
+.apple-menu-sidebar {
+  background-color: #FFFFFF;
+  padding: 12px 0;
+  border-right: 1px solid #E5E7EB;
+}
+
+.apple-menu-main-category {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  position: relative;
+}
+
+.apple-menu-main-category:hover {
+  background-color: #F9FAFB;
+  color: #000000;
+}
+
+.apple-menu-main-category-apple {
+  color: #000000;
+  font-weight: 700;
+  cursor: default;
+}
+
+.apple-menu-main-category-apple:hover {
+  background-color: transparent;
+}
+
+.apple-menu-main-category-active {
+  background-color: #F9FAFB;
+  color: #000000;
+  font-weight: 700;
+}
+
+.apple-menu-main-category-active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background-color: #00439C;
+}
+
+.apple-menu-main-category svg {
+  width: 10px;
+  height: 10px;
+  color: #9CA3AF;
+  flex-shrink: 0;
+}
+
+/* Центральная часть - динамический контент в один столбец */
+.apple-menu-content {
+  padding: 24px 32px;
+  background-color: #FFFFFF;
+}
+
+.apple-menu-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.apple-menu-section-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: #000000;
+  margin: 0 0 8px 0;
+  letter-spacing: -0.02em;
+}
+
+.apple-menu-links {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.apple-menu-link {
+  font-size: 12px;
+  font-weight: 600;
+  color: #6B7280;
+  text-decoration: none;
+  padding: 5px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.15s ease;
+  line-height: 1.4;
+}
+
+.apple-menu-link:hover {
+  color: #00439C;
+  padding-left: 4px;
+}
+
+.apple-menu-badge {
+  display: inline-block;
+  padding: 2px 6px;
+  background-color: #FEE2E2;
+  color: #DC2626;
+  font-size: 8px;
+  font-weight: 700;
+  border-radius: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Правая часть - промо */
+.apple-menu-promo {
+  padding: 24px 32px;
+  background-color: #FFFFFF;
+  border-left: 1px solid #E5E7EB;
+}
+
+.apple-menu-promo-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #000000;
+  margin: 0 0 16px 0;
+}
+
+.apple-menu-promo-banner {
+  background: linear-gradient(135deg, #B91C1C 0%, #991B1B 50%, #7F1D1D 100%);
+  border-radius: 12px;
+  overflow: hidden;
+  height: 100%;
+  min-height: 360px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.apple-menu-promo-content {
+  padding: 24px;
+  position: relative;
+  z-index: 2;
+}
+
+.apple-menu-promo-heading {
+  font-size: 20px;
+  font-weight: 800;
+  color: #FFFFFF;
+  margin: 0 0 4px 0;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.apple-menu-promo-subtitle {
+  font-size: 13px;
+  font-weight: 600;
+  color: #FFFFFF;
+  margin: 0;
+  opacity: 0.95;
+  line-height: 1.4;
+}
+
+.apple-menu-promo-image-wrapper {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  height: 75%;
+  z-index: 1;
+}
+
+.apple-menu-promo-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: bottom right;
+}
+
+@media (max-width: 1400px) {
+  .apple-menu {
+    grid-template-columns: 180px 1fr 340px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .apple-menu {
+    grid-template-columns: 160px 1fr 300px;
+  }
+}
+
+@media (max-width: 768px) {
+  .apple-menu {
+    grid-template-columns: 1fr;
+  }
+
+  .apple-menu-sidebar,
+  .apple-menu-promo {
+    display: none;
+  }
+
+  .apple-menu-content {
+    padding: 20px;
+  }
+}

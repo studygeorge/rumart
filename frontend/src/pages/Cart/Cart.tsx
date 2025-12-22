@@ -1,11 +1,21 @@
 import React from 'react'
+import Header from '@/components/layout/Header'
+import Footer from '@/components/layout/Footer'
+import MobileBottomNav from '@/components/layout/MobileBottomNav'
+import CartComponent from '@/components/cart/Cart'
+import './Cart.css'
 
-const Cart: React.FC = () => {
+const CartPage: React.FC = () => {
   return (
-    <div>
-      <h1>Корзина (в разработке)</h1>
-    </div>
+    <>
+      <Header />
+      <main className="cart-page">
+        <CartComponent />
+      </main>
+      <Footer />
+      <MobileBottomNav />
+    </>
   )
 }
 
-export default Cart
+export default CartPage

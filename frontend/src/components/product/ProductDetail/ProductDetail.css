@@ -1,0 +1,362 @@
+/* ✅ Подключаем шрифт Inter */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+.pd-detail-new {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.pd-header-new {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+
+.pd-header-new h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1D1D1F;
+  margin: 0;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+}
+
+.pd-favorite-new {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #FFFFFF;
+  border: 1px solid #D2D2D7;
+  border-radius: 50%;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.pd-favorite-new:hover {
+  border-color: #00439C;
+  background: #F5F5F7;
+}
+
+.pd-favorite-new svg {
+  color: #1D1D1F;
+  width: 20px;
+  height: 20px;
+}
+
+.pd-badges-new {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.pd-badge-rating,
+.pd-badge-installment {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.pd-badge-rating {
+  background: #1D1D1F;
+  color: #FFFFFF;
+}
+
+.pd-badge-installment {
+  background: #00439C;
+  color: #FFFFFF;
+}
+
+.pd-warning-new {
+  background: #FFF4E5;
+  border: 1px solid #FFD699;
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 12px;
+  color: #B45309;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.pd-option-group-new {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.pd-option-label-new {
+  font-size: 13px;
+  font-weight: 500;
+  color: #86868B;
+}
+
+.pd-color-options-new {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.pd-color-btn-new {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
+}
+
+.pd-color-btn-new:hover {
+  transform: scale(1.08);
+}
+
+.pd-color-btn-new.active {
+  border-color: #1D1D1F;
+  box-shadow: 0 0 0 3px #FFFFFF, 0 0 0 5px #1D1D1F;
+}
+
+.pd-button-options-new {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.pd-option-btn-new {
+  padding: 10px 18px;
+  background: #FFFFFF;
+  border: 1.5px solid #D2D2D7;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1D1D1F;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.pd-option-btn-new:hover:not(.disabled) {
+  border-color: #00439C;
+  background: #F5F5F7;
+}
+
+.pd-option-btn-new.active {
+  border-color: #1D1D1F;
+  background: #1D1D1F;
+  color: #FFFFFF;
+}
+
+.pd-option-btn-new.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  background: #F5F5F7;
+}
+
+.pd-price-block-new {
+  padding: 24px 0;
+  border-top: 1px solid #D2D2D7;
+  border-bottom: 1px solid #D2D2D7;
+  margin: 24px 0;
+}
+
+.pd-price-main-new {
+  font-size: 36px;
+  font-weight: 700;
+  color: #1D1D1F;
+  margin: 0;
+  letter-spacing: -1px;
+}
+
+.pd-price-old-new {
+  font-size: 18px;
+  color: #86868B;
+  text-decoration: line-through;
+  margin-top: 6px;
+}
+
+.pd-bonus-new {
+  font-size: 12px;
+  color: #86868B;
+  margin-top: 8px;
+}
+
+.pd-actions-new {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.pd-add-cart-new,
+.pd-quick-order-new {
+  width: 100%;
+  height: 50px;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Inter', sans-serif;
+}
+
+.pd-add-cart-new {
+  background: #1D1D1F;
+  color: #FFFFFF;
+}
+
+.pd-add-cart-new:hover {
+  background: #000000;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(29, 29, 31, 0.25);
+}
+
+.pd-quick-order-new {
+  background: #F5F5F7;
+  color: #1D1D1F;
+}
+
+.pd-quick-order-new:hover {
+  background: #E8E8ED;
+}
+
+.pd-out-of-stock-message {
+  padding: 14px 20px;
+  background: #FEE2E2;
+  border: 1px solid #FECACA;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: #991B1B;
+  margin-bottom: 20px;
+}
+
+.pd-stock-new {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+
+.pd-stock-new.in-stock {
+  color: #059669;
+}
+
+.pd-stock-new.out-of-stock {
+  color: #DC2626;
+}
+
+.pd-stock-new svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.pd-sku-new {
+  font-size: 12px;
+  color: #86868B;
+  margin-bottom: 24px;
+}
+
+.pd-tabs-new {
+  margin-top: 32px;
+  border-top: 1px solid #D2D2D7;
+  padding-top: 24px;
+}
+
+.pd-tabs-header-new {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid #D2D2D7;
+  margin-bottom: 24px;
+}
+
+.pd-tab-new {
+  padding: 12px 24px;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  font-size: 14px;
+  font-weight: 600;
+  color: #86868B;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-bottom: -1px;
+  font-family: 'Inter', sans-serif;
+}
+
+.pd-tab-new:hover {
+  color: #1D1D1F;
+}
+
+.pd-tab-new.active {
+  color: #1D1D1F;
+  border-bottom-color: #1D1D1F;
+}
+
+.pd-tabs-content-new {
+  padding: 0;
+}
+
+.pd-description-new {
+  font-size: 14px;
+  line-height: 1.7;
+  color: #1D1D1F;
+}
+
+@media (max-width: 768px) {
+  .pd-header-new h1 {
+    font-size: 22px;
+  }
+
+  .pd-price-main-new {
+    font-size: 30px;
+  }
+
+  .pd-button-options-new {
+    gap: 6px;
+  }
+
+  .pd-option-btn-new {
+    padding: 8px 14px;
+    font-size: 12px;
+  }
+
+  .pd-actions-new {
+    gap: 8px;
+  }
+
+  .pd-add-cart-new,
+  .pd-quick-order-new {
+    height: 46px;
+    font-size: 14px;
+  }
+
+  .pd-tabs-header-new {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .pd-tab-new {
+    padding: 10px 16px;
+    font-size: 13px;
+    white-space: nowrap;
+  }
+}

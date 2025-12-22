@@ -104,20 +104,20 @@ const Categories: React.FC = () => {
   }
 
   return (
-    <section className="categories-section">
-      <div className="categories-container">
+    <section className="main-categories-section">
+      <div className="main-categories-container">
         <h2>Категории товаров</h2>
         
-        <div className="categories-grid">
+        <div className="main-categories-grid">
           {categories.map((category) => (
             <div
               key={category.id}
-              className="category-card"
+              className="main-category-card"
               onMouseEnter={() => setHoveredCategory(category.id)}
               onMouseLeave={() => setHoveredCategory(null)}
             >
-              <a href={category.link} className="category-link">
-                <div className="category-card-image">
+              <a href={category.link} className="main-category-link">
+                <div className="main-category-card-image">
                   <img 
                     src={category.image} 
                     alt={category.name}
@@ -125,16 +125,16 @@ const Categories: React.FC = () => {
                     loading="lazy"
                   />
                 </div>
-                <div className="category-card-content">
-                  <h3 className="category-card-title">{category.name}</h3>
+                <div className="main-category-card-content">
+                  <h3 className="main-category-card-title">{category.name}</h3>
                   
                   {hoveredCategory === category.id && category.subcategories && (
-                    <div className="category-subcategories">
+                    <div className="main-category-subcategories">
                       {category.subcategories.map((sub, index) => (
                         <a 
                           key={index} 
                           href={`${category.link}/${sub.toLowerCase()}`}
-                          className="subcategory-link"
+                          className="main-subcategory-link"
                         >
                           {sub}
                         </a>

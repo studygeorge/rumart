@@ -1,9 +1,24 @@
-// backend/src/app/api/orders/route.ts
 import { NextRequest, NextResponse } from 'next/server'
 import { PrismaClient } from '@prisma/client'
 import { verifyToken } from '@/lib/auth/jwt'
 
 const prisma = new PrismaClient()
+
+export const dynamic = 'force-dynamic'
+
+interface CreateOrderBody {
+  items: Array<{
+    productId: string
+    quantity: number
+    price?: number
+    variantInfo?: any
+  }>
+  deliveryAddress: string
+  deliveryCity: string
+  deliveryZip?: string
+  phone: string
+  email: string
+}
 
 // GET - Получить все заказы пользователя
 export async function GET(request: NextRequest) {
@@ -16,12 +31,25 @@ export async function GET(request: NextRequest) {
     const token = authHeader.substring(7)
     const payload = verifyToken(token)
 
+    if (!payload) {
+      return NextResponse.json({ error: 'Невалидный токен' }, { status: 401 })
+    }
+
     const orders = await prisma.order.findMany({
       where: { userId: payload.userId },
       include: {
         items: {
           include: {
-            product: true
+            product: {
+              include: {
+                variants: {
+                  orderBy: {
+                    price: 'asc'
+                  },
+                  take: 1
+                }
+              }
+            }
           }
         }
       },
@@ -30,14 +58,32 @@ export async function GET(request: NextRequest) {
       }
     })
 
-    return NextResponse.json({ orders })
+    // Преобразуем для клиента с вычисляемыми полями
+    const ordersWithCompat = orders.map(order => ({
+      ...order,
+      items: order.items.map(item => ({
+        ...item,
+        product: {
+          ...item.product,
+          price: item.product.variants[0]?.price || item.product.basePrice,
+          oldPrice: item.product.variants[0]?.oldPrice || null,
+          inStock: item.product.variants.some(v => v.inStock),
+          stockCount: item.product.variants.reduce((sum, v) => sum + v.stockCount, 0),
+          sku: item.product.variants[0]?.sku || 'N/A'
+        }
+      }))
+    }))
+
+    return NextResponse.json({ orders: ordersWithCompat })
 
   } catch (error) {
-    console.error('Get orders error:', error)
+    console.error('❌ Get orders error:', error)
     return NextResponse.json(
       { error: 'Ошибка при получении заказов' },
       { status: 500 }
     )
+  } finally {
+    await prisma.$disconnect()
   }
 }
 
@@ -52,13 +98,19 @@ export async function POST(request: NextRequest) {
     const token = authHeader.substring(7)
     const payload = verifyToken(token)
 
-    const rawBody = await request.json()
-    const items = (rawBody as { items?: Array<{ productId: string; quantity: number; price: number }> }).items
-    const deliveryAddress = (rawBody as { deliveryAddress?: string }).deliveryAddress
-    const deliveryCity = (rawBody as { deliveryCity?: string }).deliveryCity
-    const deliveryZip = (rawBody as { deliveryZip?: string }).deliveryZip
-    const phone = (rawBody as { phone?: string }).phone
-    const email = (rawBody as { email?: string }).email
+    if (!payload) {
+      return NextResponse.json({ error: 'Невалидный токен' }, { status: 401 })
+    }
+
+    const body = await request.json() as CreateOrderBody
+    const {
+      items,
+      deliveryAddress,
+      deliveryCity,
+      deliveryZip,
+      phone,
+      email
+    } = body
 
     // Валидация
     if (!items || !Array.isArray(items) || items.length === 0) {
@@ -69,11 +121,16 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Заполните все обязательные поля' }, { status: 400 })
     }
 
-    // Рассчитать общую сумму
+    // Проверяем наличие всех товаров и рассчитываем сумму
     let totalAmount = 0
+    const orderItemsData = []
+
     for (const item of items) {
       const product = await prisma.product.findUnique({
-        where: { id: item.productId }
+        where: { id: item.productId },
+        include: {
+          variants: true
+        }
       })
 
       if (!product) {
@@ -83,20 +140,33 @@ export async function POST(request: NextRequest) {
         )
       }
 
-      if (!product.isAvailable || product.stock < item.quantity) {
+      // Проверяем наличие в вариантах
+      const hasStock = product.variants.some(v => v.inStock && v.stockCount >= item.quantity)
+      const totalStock = product.variants.reduce((sum, v) => sum + v.stockCount, 0)
+
+      if (!hasStock || totalStock < item.quantity) {
         return NextResponse.json(
           { error: `Товар "${product.name}" недоступен в нужном количестве` },
           { status: 400 }
         )
       }
 
-      totalAmount += product.price * item.quantity
+      // Определяем цену
+      const price = item.price || product.variants[0]?.price || product.basePrice
+      totalAmount += Number(price) * item.quantity
+
+      orderItemsData.push({
+        productId: item.productId,
+        quantity: item.quantity,
+        price: price,
+        variantInfo: item.variantInfo
+      })
     }
 
-    // Генерировать номер заказа
+    // Генерируем номер заказа
     const orderNumber = `ORD-${Date.now()}-${Math.random().toString(36).substring(2, 8).toUpperCase()}`
 
-    // Создать заказ
+    // Создаем заказ
     const order = await prisma.order.create({
       data: {
         orderNumber,
@@ -108,50 +178,92 @@ export async function POST(request: NextRequest) {
         phone,
         email,
         items: {
-          create: items.map((item) => ({
-            productId: item.productId,
-            quantity: item.quantity,
-            price: item.price
-          }))
+          create: orderItemsData
         }
       },
       include: {
         items: {
           include: {
-            product: true
+            product: {
+              include: {
+                variants: {
+                  orderBy: {
+                    price: 'asc'
+                  },
+                  take: 1
+                }
+              }
+            }
           }
         }
       }
     })
 
-    // Обновить остатки товаров
+    // Уменьшаем количество товаров на складе
     for (const item of items) {
-      await prisma.product.update({
+      const product = await prisma.product.findUnique({
         where: { id: item.productId },
-        data: {
-          stock: {
-            decrement: item.quantity
-          }
+        include: { variants: true }
+      })
+
+      if (product) {
+        // Находим первый доступный вариант с достаточным количеством
+        const availableVariant = product.variants.find(
+          v => v.inStock && v.stockCount >= item.quantity
+        )
+
+        if (availableVariant) {
+          const newStockCount = availableVariant.stockCount - item.quantity
+
+          await prisma.productVariant.update({
+            where: { id: availableVariant.id },
+            data: {
+              stockCount: newStockCount,
+              inStock: newStockCount > 0
+            }
+          })
         }
+      }
+    }
+
+    // Очищаем корзину пользователя
+    const cart = await prisma.cart.findUnique({
+      where: { userId: payload.userId }
+    })
+
+    if (cart) {
+      await prisma.cartItem.deleteMany({
+        where: { cartId: cart.id }
       })
     }
 
-    // Очистить корзину пользователя
-    await prisma.cartItem.deleteMany({
-      where: {
-        cart: {
-          userId: payload.userId
-        }
-      }
-    })
+    console.log('✅ Order created:', order.orderNumber)
 
-    return NextResponse.json({ order }, { status: 201 })
+    // Преобразуем ответ с вычисляемыми полями
+    const orderWithCompat = {
+      ...order,
+      items: order.items.map(item => ({
+        ...item,
+        product: {
+          ...item.product,
+          price: item.product.variants[0]?.price || item.product.basePrice,
+          oldPrice: item.product.variants[0]?.oldPrice || null,
+          inStock: item.product.variants.some(v => v.inStock),
+          stockCount: item.product.variants.reduce((sum, v) => sum + v.stockCount, 0),
+          sku: item.product.variants[0]?.sku || 'N/A'
+        }
+      }))
+    }
+
+    return NextResponse.json({ order: orderWithCompat }, { status: 201 })
 
   } catch (error) {
-    console.error('Create order error:', error)
+    console.error('❌ Create order error:', error)
     return NextResponse.json(
       { error: 'Ошибка при создании заказа' },
       { status: 500 }
     )
+  } finally {
+    await prisma.$disconnect()
   }
 }

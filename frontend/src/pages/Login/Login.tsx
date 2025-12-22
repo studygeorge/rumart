@@ -25,15 +25,29 @@ const Login: React.FC = () => {
     setIsLoading(true)
 
     try {
+      console.log('🔐 Attempting login with:', { 
+        emailOrPhone: formData.emailOrPhone,
+        deviceId 
+      })
+
       const response = await authApi.login({
-        ...formData,
+        emailOrPhone: formData.emailOrPhone,
+        password: formData.password,
         deviceId,
         deviceName: navigator.userAgent
       })
 
+      console.log('✅ Login successful:', response)
+
+      // Сохраняем телефон для PIN-входа, если это телефон
+      if (response.user.phone) {
+        localStorage.setItem('last_phone', response.user.phone)
+      }
+
       setAuth(response.user, response.tokens)
       navigate('/')
     } catch (err: any) {
+      console.error('❌ Login error:', err)
       setError(err.response?.data?.error || 'Ошибка при входе')
     } finally {
       setIsLoading(false)
@@ -47,14 +61,33 @@ const Login: React.FC = () => {
     setIsLoading(true)
 
     try {
-      const response = await authApi.pinLogin({
-        pinCode,
-        deviceId
+      // Получаем phone из localStorage
+      const savedPhone = localStorage.getItem('last_phone') || ''
+      
+      if (!savedPhone) {
+        setError('Телефон не найден. Войдите с паролем.')
+        setIsLoading(false)
+        return
+      }
+
+      console.log('🔐 Attempting PIN login with:', { 
+        phone: savedPhone,
+        deviceId 
       })
+
+      const response = await authApi.pinLogin({
+        phone: savedPhone,
+        pinCode,
+        deviceId,
+        deviceName: navigator.userAgent
+      })
+
+      console.log('✅ PIN login successful:', response)
 
       setAuth(response.user, response.tokens)
       navigate('/')
     } catch (err: any) {
+      console.error('❌ PIN login error:', err)
       setError(err.response?.data?.error || 'Неверный PIN-код')
     } finally {
       setIsLoading(false)
@@ -64,10 +97,17 @@ const Login: React.FC = () => {
   // Проверка доступности PIN-входа при монтировании
   React.useEffect(() => {
     const hasPinAccess = checkPinAvailable()
-    if (hasPinAccess) {
+    const savedPhone = localStorage.getItem('last_phone')
+    
+    console.log('🔍 Checking PIN availability:', { 
+      hasPinAccess, 
+      hasSavedPhone: !!savedPhone 
+    })
+    
+    if (hasPinAccess && savedPhone) {
       setShowPinLogin(true)
     }
-  }, [])
+  }, [checkPinAvailable])
 
   return (
     <div className="login-page">
@@ -169,7 +209,7 @@ const Login: React.FC = () => {
                 {isLoading ? 'Вход...' : 'Войти'}
               </button>
 
-              {checkPinAvailable() && (
+              {checkPinAvailable() && localStorage.getItem('last_phone') && (
                 <button
                   type="button"
                   className="btn-link"

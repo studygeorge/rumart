@@ -6,6 +6,8 @@ import { generateAccessToken, generateRefreshToken, getRefreshTokenExpiry } from
 
 const prisma = new PrismaClient()
 
+export const dynamic = 'force-dynamic'
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
@@ -21,14 +23,17 @@ export async function POST(request: NextRequest) {
 
     const { emailOrPhone, password, deviceId, deviceName } = validation.data
 
+    // Нормализация телефона, если это не email
+    const isEmail = emailOrPhone.includes('@')
+    const searchValue = isEmail 
+      ? emailOrPhone.toLowerCase().trim()
+      : emailOrPhone.replace(/\D/g, '') // Убираем всё кроме цифр
+
     // Найти пользователя по email или телефону
     const user = await prisma.user.findFirst({
-      where: {
-        OR: [
-          { email: emailOrPhone },
-          { phone: emailOrPhone }
-        ]
-      }
+      where: isEmail
+        ? { email: searchValue }
+        : { phone: { contains: searchValue } }
     })
 
     if (!user) {
@@ -61,7 +66,13 @@ export async function POST(request: NextRequest) {
     })
 
     // Создание/обновление сессии
-    const device = deviceId || `device_${Date.now()}`
+    const device = deviceId || `device_${Date.now()}_${Math.random().toString(36).substring(7)}`
+    const expiresAt = getRefreshTokenExpiry()
+    const ipAddress = request.headers.get('x-forwarded-for') || 
+                     request.headers.get('x-real-ip') || 
+                     'unknown'
+    const userAgent = request.headers.get('user-agent') || 'unknown'
+
     await prisma.session.upsert({
       where: {
         userId_deviceId: {
@@ -73,16 +84,17 @@ export async function POST(request: NextRequest) {
         userId: user.id,
         deviceId: device,
         deviceName: deviceName || 'Unknown Device',
-        ipAddress: request.headers.get('x-forwarded-for') || 'unknown',
-        userAgent: request.headers.get('user-agent') || 'unknown',
+        ipAddress,
+        userAgent,
         refreshToken,
-        expiresAt: getRefreshTokenExpiry()
+        expiresAt
       },
       update: {
+        deviceName: deviceName || 'Unknown Device',
         refreshToken,
-        expiresAt: getRefreshTokenExpiry(),
-        ipAddress: request.headers.get('x-forwarded-for') || 'unknown',
-        userAgent: request.headers.get('user-agent') || 'unknown'
+        expiresAt,
+        ipAddress,
+        userAgent
       }
     })
 
@@ -108,5 +120,7 @@ export async function POST(request: NextRequest) {
       { error: 'Ошибка при входе' },
       { status: 500 }
     )
+  } finally {
+    await prisma.$disconnect()
   }
 }
