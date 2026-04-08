@@ -1,0 +1,174 @@
+/* 🌐 Global Styles */
+
+/* Reset & Base */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  /* Плавный скролл с momentum (особенно для iOS) */
+  -webkit-overflow-scrolling: touch;
+}
+
+body {
+  min-height: 100vh;
+  background-color: var(--white);
+  overflow-x: hidden;
+  /* Плавная прокрутка */
+  scroll-behavior: smooth;
+}
+
+/* Плавный скролл для всех элементов */
+* {
+  scroll-behavior: smooth;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Контейнер */
+.container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 var(--space-lg);
+}
+
+.container-fluid {
+  width: 100%;
+  padding: 0 var(--space-lg);
+}
+
+/* Кнопки */
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  outline: none;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Формы */
+input,
+textarea,
+select {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  outline: none;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: 2px solid var(--primary-blue);
+  outline-offset: 2px;
+}
+
+/* Изображения */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Списки */
+ul,
+ol {
+  list-style: none;
+}
+
+/* Utility Classes */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* Плавный элитарный скроллбар */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--gray-50);
+  border-left: 1px solid var(--gray-200);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--primary-blue) 0%, var(--accent-blue) 100%);
+  border-radius: 6px;
+  border: 2px solid var(--gray-50);
+  transition: all 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, var(--primary-blue-hover) 0%, var(--primary-blue) 100%);
+  border-color: var(--gray-100);
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: var(--dark-blue);
+}
+
+/* Для Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary-blue) var(--gray-50);
+}
+
+/* Selection */
+::selection {
+  background-color: var(--light-blue);
+  color: var(--dark-blue);
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 var(--space-md);
+  }
+  
+  h1 {
+    font-size: var(--text-4xl);
+  }
+  
+  h2 {
+    font-size: var(--text-3xl);
+  }
+  
+  h3 {
+    font-size: var(--text-2xl);
+  }
+
+  /* Тоньше скроллбар на мобильных */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+}

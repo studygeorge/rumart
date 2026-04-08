@@ -1,0 +1,120 @@
+.promo-banner {
+  position: relative;
+  width: 100%;
+  height: 60px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #003d8f 0%, #00439C 50%, #0052b8 100%);
+}
+
+.promo-banner-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* Слайды */
+.promo-banner-slides {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.promo-banner-slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: translateX(100%);
+  transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1;
+}
+
+.promo-banner-slide.active {
+  opacity: 1;
+  transform: translateX(0);
+  z-index: 2;
+}
+
+.promo-banner-slide.exiting {
+  opacity: 0;
+  transform: translateX(-100%);
+  z-index: 3;
+}
+
+/* Контент слайда */
+.promo-banner-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.promo-banner-slide.active .promo-banner-content {
+  animation: slideInFromRight 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes slideInFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.promo-banner-text {
+  font-size: 16px;
+  font-weight: 600;
+  color: #FFFFFF;
+  margin: 0;
+  text-align: center;
+  letter-spacing: 0.4px;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+/* Адаптив для планшетов */
+@media (max-width: 768px) {
+  .promo-banner {
+    height: 56px;
+  }
+
+  .promo-banner-content {
+    padding: 0 16px;
+  }
+
+  .promo-banner-text {
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+  }
+}
+
+/* Адаптив для мобильных */
+@media (max-width: 480px) {
+  .promo-banner {
+    height: 52px;
+  }
+
+  .promo-banner-content {
+    padding: 0 12px;
+  }
+
+  .promo-banner-text {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+  }
+
+  .promo-banner-slide {
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}

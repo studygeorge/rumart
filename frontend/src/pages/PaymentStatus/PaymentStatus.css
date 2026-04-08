@@ -1,0 +1,541 @@
+.payment-status-page {
+  min-height: calc(100vh - 200px);
+  background: #F5F5F7;
+  padding: 80px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.payment-status-container {
+  max-width: 700px;
+  width: 100%;
+}
+
+.payment-status-loading {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.payment-status-spinner {
+  width: 60px;
+  height: 60px;
+  border: 4px solid #E8E8ED;
+  border-top-color: #00439C;
+  border-radius: 50%;
+  margin: 0 auto 24px;
+  animation: spin 0.8s linear infinite;
+}
+
+.payment-status-loading p {
+  font-size: 16px;
+  color: #86868B;
+}
+
+.payment-status-card {
+  background: #FFFFFF;
+  border-radius: 16px;
+  padding: 48px 32px;
+  text-align: center;
+  border-top: 4px solid #00439C;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.payment-status-card.error {
+  border-top-color: #FF3B30;
+}
+
+.payment-status-icon {
+  font-size: 72px;
+  margin-bottom: 24px;
+}
+
+.payment-status-card h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1D1D1F;
+  margin: 0 0 12px 0;
+}
+
+.payment-status-description {
+  font-size: 16px;
+  color: #86868B;
+  margin: 0 0 32px 0;
+}
+
+.payment-status-details {
+  background: #F5F5F7;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.payment-status-detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 15px;
+}
+
+.payment-status-detail-row span {
+  color: #86868B;
+}
+
+.payment-status-detail-row strong {
+  color: #1D1D1F;
+  font-weight: 600;
+}
+
+.payment-status-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.payment-status-btn {
+  width: 100%;
+  padding: 16px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.payment-status-btn.primary {
+  background: #00439C;
+  color: #FFFFFF;
+}
+
+.payment-status-btn.primary:hover {
+  background: #003380;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 67, 156, 0.3);
+}
+
+.payment-status-btn.secondary {
+  background: transparent;
+  color: #00439C;
+  border: 1px solid #E8E8ED;
+}
+
+.payment-status-btn.secondary:hover {
+  background: #F5F5F7;
+}
+
+/* ========== Информация о доставке ========== */
+.delivery-tracking-info {
+  margin-top: 32px;
+  padding: 28px;
+  background: linear-gradient(135deg, #F5F5F7 0%, #E8E8ED 100%);
+  border-radius: 16px;
+  text-align: left;
+  border: 1px solid #D2D2D7;
+}
+
+.delivery-tracking-info h2 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1D1D1F;
+  margin: 0 0 24px 0;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* Блок трек-номера */
+.tracking-number-block {
+  background: #FFFFFF;
+  padding: 24px;
+  border-radius: 12px;
+  border: 2px solid #000000;
+  margin-bottom: 20px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.tracking-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #86868B;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.tracking-number {
+  font-size: 28px;
+  font-weight: 800;
+  color: #000000;
+  font-family: 'SF Mono', 'Monaco', 'Courier New', monospace;
+  letter-spacing: 3px;
+  margin: 12px 0;
+  word-break: break-all;
+  line-height: 1.3;
+}
+
+.copy-tracking-btn {
+  padding: 10px 20px;
+  background: #F5F5F7;
+  border: 1px solid #D2D2D7;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1D1D1F;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 12px;
+}
+
+.copy-tracking-btn:hover {
+  background: #000000;
+  color: #FFFFFF;
+  border-color: #000000;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.copy-tracking-btn:active {
+  transform: translateY(0);
+}
+
+/* Детали доставки */
+.delivery-detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
+  background: #FFFFFF;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  font-size: 14px;
+  border: 1px solid #E8E8ED;
+}
+
+.delivery-detail-row span {
+  color: #86868B;
+  font-weight: 500;
+}
+
+.delivery-detail-row strong {
+  color: #1D1D1F;
+  font-weight: 700;
+}
+
+/* Кнопка отслеживания */
+.tracking-link-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 16px 24px;
+  background: #000000;
+  color: #FFFFFF;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+  margin-top: 20px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.tracking-link-btn:hover {
+  background: #434343;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+}
+
+.tracking-link-btn:active {
+  transform: translateY(-1px);
+}
+
+.tracking-link-btn svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+/* ========== Список товаров в заказе ========== */
+.order-items-summary {
+  margin-top: 28px;
+  padding-top: 28px;
+  border-top: 2px solid #D2D2D7;
+}
+
+.order-items-summary h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1D1D1F;
+  margin: 0 0 16px 0;
+  text-align: left;
+}
+
+.order-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.order-item-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  background: #FFFFFF;
+  border-radius: 12px;
+  border: 1px solid #D2D2D7;
+  transition: all 0.2s ease;
+}
+
+.order-item-row:hover {
+  border-color: #000000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transform: translateX(4px);
+}
+
+.order-item-image {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 10px;
+  flex-shrink: 0;
+  border: 1px solid #E8E8ED;
+}
+
+.order-item-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.order-item-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1D1D1F;
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+
+.order-item-variant {
+  font-size: 13px;
+  color: #86868B;
+  margin-bottom: 4px;
+  line-height: 1.4;
+}
+
+.order-item-quantity {
+  font-size: 12px;
+  color: #86868B;
+  font-weight: 500;
+}
+
+.order-item-price {
+  font-size: 17px;
+  font-weight: 700;
+  color: #1D1D1F;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ========== Анимации ========== */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.delivery-tracking-info {
+  animation: fadeIn 0.4s ease-out;
+}
+
+.order-item-row {
+  animation: fadeIn 0.3s ease-out backwards;
+}
+
+.order-item-row:nth-child(1) { animation-delay: 0.05s; }
+.order-item-row:nth-child(2) { animation-delay: 0.1s; }
+.order-item-row:nth-child(3) { animation-delay: 0.15s; }
+.order-item-row:nth-child(4) { animation-delay: 0.2s; }
+.order-item-row:nth-child(5) { animation-delay: 0.25s; }
+
+/* ========== Адаптивность ========== */
+@media (max-width: 768px) {
+  .payment-status-page {
+    padding: 40px 16px;
+  }
+
+  .payment-status-container {
+    max-width: 100%;
+  }
+
+  .payment-status-card {
+    padding: 32px 20px;
+  }
+
+  .payment-status-card h1 {
+    font-size: 24px;
+  }
+
+  .payment-status-icon {
+    font-size: 60px;
+  }
+
+  .delivery-tracking-info {
+    padding: 20px;
+  }
+
+  .delivery-tracking-info h2 {
+    font-size: 18px;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .tracking-number {
+    font-size: 20px;
+    letter-spacing: 1px;
+  }
+
+  .tracking-number-block {
+    padding: 20px 16px;
+  }
+
+  .order-item-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .order-item-image {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+  }
+
+  .order-item-price {
+    width: 100%;
+    text-align: right;
+    font-size: 18px;
+  }
+
+  .delivery-detail-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    padding: 12px;
+  }
+
+  .delivery-detail-row strong {
+    font-size: 15px;
+  }
+
+  .tracking-link-btn {
+    font-size: 15px;
+    padding: 14px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .payment-status-card {
+    padding: 24px 16px;
+  }
+
+  .payment-status-icon {
+    font-size: 48px;
+  }
+
+  .payment-status-card h1 {
+    font-size: 20px;
+  }
+
+  .tracking-number {
+    font-size: 18px;
+  }
+
+  .order-items-summary h3 {
+    font-size: 16px;
+  }
+
+  .order-item-name {
+    font-size: 14px;
+  }
+}
+
+/* ========== Дополнительные улучшения UX ========== */
+.payment-status-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.payment-status-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #00439C 0%, #0066FF 100%);
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Статусы доставки с цветами */
+.delivery-detail-row[data-status="delivered"] strong {
+  color: #34C759;
+}
+
+.delivery-detail-row[data-status="in_delivery"] strong {
+  color: #00439C;
+}
+
+.delivery-detail-row[data-status="new"] strong {
+  color: #FF9500;
+}
+
+/* Пульсирующий эффект для трек-номера */
+.tracking-number-block {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+  50% {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  }
+}
+
+/* Успешная копирование - обратная связь */
+.copy-tracking-btn.copied {
+  background: #34C759;
+  color: #FFFFFF;
+  border-color: #34C759;
+}
+
+.copy-tracking-btn.copied::after {
+  content: ' ✓ Скопировано';
+}

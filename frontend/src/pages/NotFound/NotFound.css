@@ -1,0 +1,121 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+.not-found-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #FFFFFF;
+  padding: 40px 20px;
+  font-family: 'Inter', sans-serif;
+}
+
+.not-found-content {
+  max-width: 500px;
+  width: 100%;
+  text-align: center;
+}
+
+.not-found-number {
+  font-size: 120px;
+  font-weight: 800;
+  color: #E5E7EB;
+  line-height: 1;
+  margin-bottom: 24px;
+  letter-spacing: -0.04em;
+}
+
+.not-found-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 16px 0;
+  letter-spacing: -0.02em;
+}
+
+.not-found-description {
+  font-size: 16px;
+  font-weight: 500;
+  color: #6B7280;
+  line-height: 1.6;
+  margin: 0 0 40px 0;
+}
+
+.not-found-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.not-found-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 28px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  border: 2px solid transparent;
+}
+
+.not-found-button.primary {
+  background-color: #00439C;
+  color: #FFFFFF;
+}
+
+.not-found-button.primary:hover {
+  background-color: #003087;
+}
+
+.not-found-button.secondary {
+  background-color: #FFFFFF;
+  color: #00439C;
+  border-color: #E5E7EB;
+}
+
+.not-found-button.secondary:hover {
+  border-color: #00439C;
+}
+
+@media (max-width: 768px) {
+  .not-found-number {
+    font-size: 80px;
+    margin-bottom: 20px;
+  }
+
+  .not-found-title {
+    font-size: 24px;
+    margin-bottom: 12px;
+  }
+
+  .not-found-description {
+    font-size: 14px;
+    margin-bottom: 32px;
+  }
+
+  .not-found-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .not-found-button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .not-found-container {
+    padding: 20px;
+  }
+
+  .not-found-number {
+    font-size: 64px;
+  }
+
+  .not-found-title {
+    font-size: 20px;
+  }
+}

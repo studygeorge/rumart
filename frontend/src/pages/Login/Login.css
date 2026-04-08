@@ -1,0 +1,244 @@
+/* Страница входа - уникальный префикс .auth- */
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #F5F5F7;
+  padding: 16px;
+}
+
+.auth-container {
+  width: 100%;
+  max-width: 400px;
+}
+
+/* Карточка входа */
+.auth-card {
+  background: #FFFFFF;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+  padding: 20px 20px 18px;
+}
+
+/* Заголовок */
+.auth-header {
+  text-align: center;
+  margin-bottom: 14px;
+}
+
+.auth-logo {
+  display: inline-block;
+  margin-bottom: 8px;
+  text-decoration: none;
+}
+
+.auth-logo-text {
+  font-size: 24px;
+  font-weight: 700;
+  color: #00439C;
+  letter-spacing: -0.4px;
+}
+
+.auth-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #1D1D1F;
+  margin: 0 0 2px 0;
+  letter-spacing: -0.3px;
+}
+
+.auth-subtitle {
+  font-size: 12px;
+  color: #86868B;
+  margin: 0;
+}
+
+/* Сообщение об ошибке */
+.auth-error {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 10px;
+  background: #FFF3F3;
+  border: 1px solid #FFE0E0;
+  border-radius: 6px;
+  color: #D32F2F;
+  font-size: 12px;
+  margin-bottom: 12px;
+}
+
+.auth-error svg {
+  flex-shrink: 0;
+}
+
+/* Форма входа */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.auth-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.auth-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #1D1D1F;
+}
+
+.auth-input {
+  width: 100%;
+  padding: 8px 10px;
+  font-size: 13px;
+  color: #1D1D1F;
+  background: #FFFFFF;
+  border: 1.5px solid #D1D1D6;
+  border-radius: 6px;
+  outline: none;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.auth-input::placeholder {
+  color: #86868B;
+}
+
+.auth-input:hover {
+  border-color: #00439C;
+}
+
+.auth-input:focus {
+  border-color: #00439C;
+  box-shadow: 0 0 0 3px rgba(0, 67, 156, 0.08);
+}
+
+.auth-input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* PIN-код input */
+.auth-pin-input {
+  font-size: 22px;
+  text-align: center;
+  letter-spacing: 8px;
+  font-weight: 700;
+  padding: 10px;
+}
+
+/* Кнопка отправки */
+.auth-btn-submit {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #FFFFFF;
+  background: #00439C;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 2px;
+}
+
+.auth-btn-submit:hover:not(:disabled) {
+  background: #003380;
+  box-shadow: 0 3px 10px rgba(0, 67, 156, 0.18);
+}
+
+.auth-btn-submit:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.auth-btn-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Ссылка-кнопка */
+.auth-btn-link {
+  background: none;
+  border: none;
+  color: #00439C;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 6px;
+  transition: opacity 0.2s ease;
+  text-align: center;
+}
+
+.auth-btn-link:hover {
+  opacity: 0.7;
+  text-decoration: underline;
+}
+
+/* Футер */
+.auth-footer {
+  margin-top: 12px;
+  text-align: center;
+  padding-top: 12px;
+  border-top: 1px solid #E5E7EB;
+}
+
+.auth-footer-text {
+  font-size: 12px;
+  color: #86868B;
+  margin: 0;
+}
+
+.auth-footer-link {
+  color: #00439C;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.auth-footer-link:hover {
+  text-decoration: underline;
+}
+
+/* Адаптив планшет */
+@media (max-width: 768px) {
+  .auth-card {
+    padding: 18px 18px 16px;
+  }
+  
+  .auth-title {
+    font-size: 18px;
+  }
+}
+
+/* Адаптив мобилка */
+@media (max-width: 480px) {
+  .auth-page {
+    padding: 12px;
+    align-items: flex-start;
+    padding-top: 20px;
+  }
+  
+  .auth-card {
+    padding: 16px 16px 14px;
+  }
+  
+  .auth-logo-text {
+    font-size: 22px;
+  }
+  
+  .auth-title {
+    font-size: 17px;
+  }
+  
+  .auth-subtitle {
+    font-size: 11px;
+  }
+  
+  .auth-pin-input {
+    font-size: 20px;
+    letter-spacing: 6px;
+  }
+}

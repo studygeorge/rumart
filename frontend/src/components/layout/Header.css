@@ -1,0 +1,463 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+.hdr-header {
+  position: sticky;
+  top: 0;
+  z-index: 10000;
+  background-color: var(--white);
+  box-shadow: var(--shadow-sm);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.hdr-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
+  width: 100%;
+}
+
+/* 1. Синий топ-бар */
+.hdr-topbar {
+  background-color: #00439C;
+  color: #FFFFFF;
+  font-size: 11px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  max-height: 36px;
+  opacity: 1;
+}
+
+.hdr-topbar-hidden {
+  max-height: 0;
+  opacity: 0;
+  margin-bottom: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.hdr-topbar-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  width: 100%;
+}
+
+.hdr-topbar-nav,
+.hdr-topbar-nav-right {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.hdr-topbar-link {
+  color: #FFFFFF;
+  text-decoration: none;
+  transition: none;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.hdr-topbar-link:hover {
+  color: #FFFFFF;
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .hdr-topbar {
+    display: none;
+  }
+}
+
+/* 2. Белый хедер с поиском */
+.hdr-main {
+  background-color: #FFFFFF;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--gray-200);
+  overflow: visible;
+}
+
+.hdr-main-content {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  overflow: visible;
+  flex-wrap: nowrap;
+  width: 100%;
+}
+
+@media (max-width: 1200px) {
+  .hdr-main-content {
+    gap: 16px;
+  }
+  
+  .hdr-quick-links {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .hdr-main {
+    height: 56px;
+  }
+
+  .hdr-main-content {
+    gap: 12px;
+  }
+  
+  .hdr-quick-links,
+  .hdr-actions {
+    display: none !important;
+  }
+  
+  .hdr-container {
+    padding: 0 16px;
+  }
+}
+
+/* Logo */
+.hdr-logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  transition: transform var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.hdr-logo:hover {
+  transform: scale(1.02);
+}
+
+.hdr-logo-text {
+  font-size: 22px;
+  font-weight: 800;
+  color: #000000;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  font-family: 'Inter', sans-serif;
+}
+
+@media (max-width: 768px) {
+  .hdr-logo-text {
+    font-size: 18px;
+  }
+}
+
+/* Search - УВЕЛИЧЕНА */
+.hdr-search-box {
+  position: relative;
+  width: 100%;
+  max-width: none;
+  min-width: 150px;
+  flex: 1 1 auto;
+}
+
+@media (max-width: 768px) {
+  .hdr-search-box {
+    max-width: none;
+    min-width: 100px;
+  }
+}
+
+.hdr-search-input {
+  width: 100%;
+  height: 40px;
+  padding: 0 44px 0 14px;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-weight: 600;
+  transition: all var(--transition-fast);
+  background-color: var(--gray-100);
+  font-family: 'Inter', sans-serif;
+}
+
+@media (max-width: 768px) {
+  .hdr-search-input {
+    height: 36px;
+    font-size: 12px;
+    padding: 0 40px 0 12px;
+  }
+  
+  .hdr-search-input::placeholder {
+    font-size: 12px;
+  }
+}
+
+.hdr-search-input:focus {
+  outline: none;
+  border-color: var(--primary-blue);
+  box-shadow: 0 0 0 3px rgba(0, 48, 135, 0.1);
+  background-color: #FFFFFF;
+}
+
+.hdr-search-input::placeholder {
+  color: var(--gray-500);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.hdr-search-btn {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  color: var(--gray-600);
+  cursor: pointer;
+  transition: color var(--transition-fast);
+}
+
+@media (max-width: 768px) {
+  .hdr-search-btn {
+    width: 28px;
+    height: 28px;
+    right: 6px;
+  }
+  
+  .hdr-search-btn svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.hdr-search-btn:hover {
+  color: var(--primary-blue);
+}
+
+/* Quick Links - правее к иконкам */
+.hdr-quick-links {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  flex-shrink: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  margin-left: 0;
+  margin-right: 16px;
+}
+
+.hdr-quick-link {
+  font-size: 12px;
+  font-weight: 700;
+  color: #000000;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color var(--transition-fast);
+  font-family: 'Inter', sans-serif;
+}
+
+.hdr-quick-link:hover {
+  color: var(--primary-blue);
+}
+
+.hdr-quick-link-sale {
+  color: var(--error);
+}
+
+/* Header Actions */
+.hdr-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+  white-space: nowrap;
+  overflow: visible;
+}
+
+.hdr-icon-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  height: auto;
+  padding: 8px;
+  border-radius: 0;
+  color: #374151;
+  background-color: transparent;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+  border: none;
+  flex-shrink: 0;
+}
+
+.hdr-icon-btn:hover {
+  background-color: transparent;
+  color: var(--primary-blue);
+}
+
+.hdr-icon-btn svg {
+  width: 22px;
+  height: 22px;
+  display: block;
+  transition: all var(--transition-fast);
+}
+
+/* WRAPPER ДЛЯ КОРЗИНЫ С ПРЕВЬЮ */
+.hdr-cart-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* УНИКАЛЬНЫЙ МАЛЕНЬКИЙ БЕЙДЖ */
+.hdr-cart-badge {
+  position: absolute !important;
+  top: 0 !important;
+  right: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-width: 14px !important;
+  height: 14px !important;
+  padding: 0 3px !important;
+  font-size: 8px !important;
+  font-weight: 700 !important;
+  color: #FFFFFF !important;
+  background-color: #00439C !important;
+  border-radius: 50% !important;
+  border: 1px solid #FFFFFF !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15) !important;
+  font-family: 'Inter', sans-serif !important;
+  line-height: 1 !important;
+  pointer-events: none !important;
+  z-index: 10 !important;
+}
+
+/* 3. Категории - ИСПРАВЛЕНО */
+.hdr-categories {
+  background-color: #FFFFFF;
+  border-bottom: 1px solid var(--gray-200);
+  height: 56px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  z-index: 10001;
+}
+
+.hdr-categories-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
+  width: 100%;
+  height: 100%;
+}
+
+.hdr-categories-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  gap: 0;
+}
+
+.hdr-category-item {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  min-width: 0;
+}
+
+.hdr-category-link {
+  font-size: 13px;
+  font-weight: 700;
+  color: #000000;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: all var(--transition-fast);
+  padding: 0 8px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  height: 100%;
+  width: 100%;
+  font-family: 'Inter', sans-serif;
+  text-align: center;
+}
+
+.hdr-category-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 8px;
+  right: 8px;
+  width: auto;
+  height: 2px;
+  background-color: var(--primary-blue);
+  transition: opacity var(--transition-base);
+  opacity: 0;
+}
+
+.hdr-category-item:hover .hdr-category-link {
+  color: var(--primary-blue);
+}
+
+.hdr-category-item:hover .hdr-category-link::after {
+  opacity: 1;
+}
+
+@media (max-width: 1440px) {
+  .hdr-category-link {
+    font-size: 12px;
+    padding: 0 6px;
+  }
+  
+  .hdr-category-link::after {
+    left: 6px;
+    right: 6px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hdr-categories {
+    display: none;
+  }
+}
+
+/* Overlay */
+.hdr-mega-menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(4px);
+  z-index: 9998;
+  animation: hdrFadeIn var(--transition-base);
+  pointer-events: none;
+}
+
+@keyframes hdrFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

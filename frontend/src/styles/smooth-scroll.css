@@ -1,0 +1,57 @@
+/* 🎯 Smooth Scroll Enhancement */
+
+/* Плавный скролл для всей страницы */
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px; /* Отступ для sticky header */
+  }
+  
+  /* Улучшенная плавность для webkit */
+  body {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
+  }
+  
+  /* Плавная анимация при скролле к якорям */
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+    
+    /* Плавная прокрутка с CSS Scroll Snap (опционально) */
+    .scroll-container {
+      scroll-snap-type: y proximity;
+      scroll-padding: 20px;
+    }
+    
+    .scroll-item {
+      scroll-snap-align: start;
+      scroll-margin-top: 20px;
+    }
+  }
+  
+  /* Для пользователей, которые предпочитают уменьшенную анимацию */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+  
+  /* Плавное появление контента при скролле */
+  .fade-in-section {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+  
+  .fade-in-section.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  

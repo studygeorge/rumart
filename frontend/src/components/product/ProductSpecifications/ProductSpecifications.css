@@ -1,0 +1,50 @@
+.ps-specifications {
+  width: 100%;
+}
+
+.ps-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ps-row {
+  border-bottom: 1px solid #E5E7EB;
+}
+
+.ps-row:last-child {
+  border-bottom: none;
+}
+
+.ps-label,
+.ps-value {
+  padding: 16px 0;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.ps-label {
+  color: #6B7280;
+  width: 40%;
+  font-weight: 500;
+}
+
+.ps-value {
+  color: #111827;
+  width: 60%;
+}
+
+@media (max-width: 768px) {
+  .ps-label,
+  .ps-value {
+    padding: 12px 0;
+    font-size: 13px;
+  }
+
+  .ps-label {
+    width: 45%;
+  }
+
+  .ps-value {
+    width: 55%;
+  }
+}

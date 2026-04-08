@@ -1,0 +1,137 @@
+.payment-failure-page {
+  min-height: calc(100vh - 200px);
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.payment-failure-container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.failure-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 30px;
+  background: #ef4444;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  animation: scaleIn 0.5s ease;
+}
+
+.failure-icon svg {
+  width: 50px;
+  height: 50px;
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+.failure-title {
+  text-align: center;
+  font-size: 32px;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 10px;
+}
+
+.failure-subtitle {
+  text-align: center;
+  font-size: 18px;
+  color: #6b7280;
+  margin-bottom: 40px;
+}
+
+.failure-info-card {
+  background: white;
+  border-radius: 12px;
+  padding: 30px;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.failure-info-card h2 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 15px;
+}
+
+.failure-info-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.failure-info-card li {
+  padding: 10px 0;
+  padding-left: 30px;
+  position: relative;
+  color: #6b7280;
+}
+
+.failure-info-card li::before {
+  content: '•';
+  position: absolute;
+  left: 10px;
+  color: #ef4444;
+  font-size: 20px;
+}
+
+.failure-actions {
+  display: flex;
+  gap: 15px;
+}
+
+.btn-retry,
+.btn-home {
+  flex: 1;
+  padding: 15px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-retry {
+  background: #3b82f6;
+  color: white;
+}
+
+.btn-retry:hover {
+  background: #2563eb;
+}
+
+.btn-home {
+  background: #f3f4f6;
+  color: #1f2937;
+}
+
+.btn-home:hover {
+  background: #e5e7eb;
+}
+
+@media (max-width: 768px) {
+  .failure-title {
+    font-size: 24px;
+  }
+
+  .failure-info-card {
+    padding: 20px;
+  }
+
+  .failure-actions {
+    flex-direction: column;
+  }
+}

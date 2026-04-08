@@ -1,0 +1,257 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+.homemenu-wrapper {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  background-color: #FFFFFF;
+  font-family: 'Inter', sans-serif;
+  min-height: 420px;
+}
+
+/* Левая часть - основные категории */
+.homemenu-sidebar {
+  background-color: #FFFFFF;
+  padding: 12px 0;
+  border-right: 1px solid #E5E7EB;
+}
+
+.homemenu-main-category {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  position: relative;
+}
+
+.homemenu-main-category:hover {
+  background-color: #F9FAFB;
+  color: #000000;
+}
+
+.homemenu-main-category-main {
+  color: #000000;
+  font-weight: 700;
+  cursor: default;
+}
+
+.homemenu-main-category-main:hover {
+  background-color: transparent;
+}
+
+.homemenu-main-category-active {
+  background-color: #F9FAFB;
+  color: #000000;
+  font-weight: 700;
+}
+
+.homemenu-main-category-active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background-color: #00439C;
+}
+
+.homemenu-main-category svg {
+  width: 10px;
+  height: 10px;
+  color: #9CA3AF;
+  flex-shrink: 0;
+}
+
+/* Правая часть - главный контент */
+.homemenu-main-content {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 32px;
+  padding: 24px 32px;
+  background-color: #FFFFFF;
+}
+
+/* Контент подкатегорий */
+.homemenu-content-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.homemenu-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.homemenu-section-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: #000000;
+  margin: 0 0 8px 0;
+  letter-spacing: -0.02em;
+}
+
+.homemenu-links {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.homemenu-link {
+  font-size: 12px;
+  font-weight: 600;
+  color: #6B7280;
+  text-decoration: none;
+  padding: 5px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.15s ease;
+  line-height: 1.4;
+}
+
+.homemenu-link:hover {
+  color: #00439C;
+  padding-left: 4px;
+}
+
+.homemenu-badge {
+  display: inline-block;
+  padding: 2px 6px;
+  background-color: #FEE2E2;
+  color: #DC2626;
+  font-size: 8px;
+  font-weight: 700;
+  border-radius: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Промо секция - ТОЛЬКО ИЗОБРАЖЕНИЯ */
+.homemenu-promo-section {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.homemenu-promo-section-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #000000;
+  margin: 0;
+  padding-left: 2px;
+}
+
+.homemenu-promo-row {
+  display: flex;
+  gap: 10px;
+}
+
+.homemenu-promo-card {
+  flex: 0 0 auto;
+  width: 180px;
+  text-decoration: none;
+  display: block;
+}
+
+.homemenu-promo-banner {
+  width: 100%;
+  height: 320px;
+}
+
+.homemenu-promo-image {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  display: block !important;
+  border-radius: 12px !important;
+}
+
+/* Адаптивность */
+@media (max-width: 1400px) {
+  .homemenu-main-content {
+    grid-template-columns: 240px 1fr;
+    gap: 24px;
+  }
+  
+  .homemenu-promo-card {
+    width: 170px;
+  }
+  
+  .homemenu-promo-banner {
+    height: 300px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .homemenu-wrapper {
+    grid-template-columns: 180px 1fr;
+  }
+  
+  .homemenu-main-content {
+    grid-template-columns: 220px 1fr;
+    gap: 20px;
+    padding: 20px 24px;
+  }
+  
+  .homemenu-promo-card {
+    width: 160px;
+  }
+  
+  .homemenu-promo-banner {
+    height: 280px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .homemenu-main-content {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  
+  .homemenu-promo-row {
+    justify-content: flex-start;
+  }
+  
+  .homemenu-promo-card {
+    width: 200px;
+  }
+  
+  .homemenu-promo-banner {
+    height: 340px;
+  }
+}
+
+@media (max-width: 768px) {
+  .homemenu-wrapper {
+    grid-template-columns: 1fr;
+  }
+
+  .homemenu-sidebar {
+    display: none;
+  }
+
+  .homemenu-main-content {
+    padding: 20px;
+  }
+  
+  .homemenu-promo-row {
+    overflow-x: auto;
+    scrollbar-width: thin;
+  }
+  
+  .homemenu-promo-card {
+    width: 180px;
+  }
+  
+  .homemenu-promo-banner {
+    height: 320px;
+  }
+}

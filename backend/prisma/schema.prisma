@@ -1,0 +1,329 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// USER MANAGEMENT
+// ============================================
+
+model User {
+  id              String     @id @default(cuid())
+  email           String     @unique
+  phone           String     @unique
+  passwordHash    String
+  firstName       String?
+  lastName        String?
+  role            UserRole   @default(USER)
+  isEmailVerified Boolean    @default(false)
+  isPhoneVerified Boolean    @default(false)
+  pinCode         String?
+  pinEnabled      Boolean    @default(false)
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+  
+  // Relations
+  cart            Cart?
+  favorites       Favorite[]
+  orders          Order[]
+  reviews         Review[]
+  sessions        Session[]
+
+  @@map("users")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  userId       String
+  deviceId     String
+  deviceName   String?
+  ipAddress    String?
+  userAgent    String?
+  refreshToken String   @unique
+  expiresAt    DateTime
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  
+  // Relations
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, deviceId])
+  @@map("sessions")
+}
+
+// ============================================
+// PRODUCT CATALOG
+// ============================================
+
+model Category {
+  id          String     @id @default(cuid())
+  name        String
+  slug        String     @unique
+  description String?
+  image       String?
+  parentId    String?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  
+  // Relations
+  parent      Category?  @relation("CategoryToCategory", fields: [parentId], references: [id])
+  children    Category[] @relation("CategoryToCategory")
+  products    Product[]
+
+  @@map("categories")
+}
+
+model Product {
+  id              String           @id @default(cuid())
+  name            String
+  slug            String           @unique
+  description     String?
+  images          String[]
+  categoryId      String
+  specifications  Json?
+  metaTitle       String?
+  metaDescription String?
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  basePrice       Decimal          @db.Decimal(10, 2)
+  
+  // Relations
+  cartItems       CartItem[]
+  favorites       Favorite[]
+  orderItems      OrderItem[]
+  variants        ProductVariant[]
+  category        Category         @relation(fields: [categoryId], references: [id])
+  reviews         Review[]
+
+  @@index([slug])
+  @@index([categoryId])
+  @@map("products")
+}
+
+model ProductVariant {
+  id           String   @id @default(cuid())
+  productId    String
+  color        String?
+  colorHex     String?
+  memory       String?
+  connectivity String?
+  price        Decimal  @db.Decimal(10, 2)
+  oldPrice     Decimal? @db.Decimal(10, 2)
+  inStock      Boolean  @default(true)
+  stockCount   Int      @default(0)
+  sku          String   @unique
+  images       String[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  processor    String?
+  storage      String?
+  gpu          String?
+  
+  // Relations
+  product      Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([productId])
+  @@index([sku])
+  @@index([inStock])
+  @@map("product_variants")
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  rating    Int
+  comment   String?
+  userId    String
+  productId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // Relations
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, productId])
+  @@index([productId])
+  @@index([rating])
+  @@map("reviews")
+}
+
+// ============================================
+// ORDERS & PAYMENTS
+// ============================================
+
+model Order {
+  id                    String        @id @default(cuid())
+  orderNumber           String        @unique
+  status                OrderStatus   @default(PENDING)
+  totalAmount           Decimal       @db.Decimal(10, 2)
+  
+  // Customer Info
+  firstName             String
+  lastName              String?
+  phone                 String
+  email                 String
+  
+  // Delivery Info
+  deliveryAddress       String
+  deliveryCity          String
+  deliveryZip           String?
+  deliveryCost          Decimal?      @db.Decimal(10, 2)
+  deliveryEstimatedDate String?
+  deliveryPointAddress  String?
+  deliveryPointId       String?
+  deliveryStatus        String?
+  deliveryId            String?       @unique
+  deliveryTrackingUrl   String?
+  deliveryData          Json?
+  
+  // T-Bank Payment Info (основной метод оплаты картой)
+  paymentId             String?       @unique
+  paymentStatus         PaymentStatus @default(PENDING)
+  paymentUrl            String?
+  paymentData           Json?
+  
+  // Yandex Pay Info (СОХРАНЕНО для будущего использования)
+  yandexPayOrderId      String?       @unique
+  yandexPayData         Json?
+  yandexPaymentStatus   PaymentStatus @default(PENDING)
+  
+  // Т-Банк Долами (BNPL) Info (рассрочка) - НОВОЕ
+  tbankDolamiApplicationId String?    @unique
+  tbankDolamiStatus        String?
+  tbankDolamiRedirectUrl   String?
+  tbankDolamiData          Json?
+  
+  // Payment Method: "TBANK" (карта), "TBANK_DOLAMI" (рассрочка), "YANDEX_PAY" (отключено временно)
+  paymentMethod         String?       @default("TBANK")
+  
+  // Email Notifications
+  emailSent             Boolean       @default(false)
+  emailSentAt           DateTime?
+  
+  // Timestamps
+  userId                String
+  createdAt             DateTime      @default(now())
+  updatedAt             DateTime      @updatedAt
+  paidAt                DateTime?
+  
+  // Relations
+  items                 OrderItem[]
+  user                  User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([status])
+  @@index([paymentStatus])
+  @@index([paymentId])
+  @@index([yandexPayOrderId])
+  @@index([tbankDolamiApplicationId])
+  @@index([deliveryId])
+  @@index([deliveryStatus])
+  @@index([emailSent])
+  @@index([createdAt])
+  @@index([paymentMethod])
+  @@map("orders")
+}
+
+model OrderItem {
+  id          String   @id @default(cuid())
+  quantity    Int
+  price       Decimal  @db.Decimal(10, 2)
+  orderId     String
+  productId   String
+  createdAt   DateTime @default(now())
+  variantInfo Json?
+  
+  // Relations
+  order       Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product     Product  @relation(fields: [productId], references: [id])
+
+  @@index([orderId])
+  @@index([productId])
+  @@map("order_items")
+}
+
+// ============================================
+// CART & FAVORITES
+// ============================================
+
+model Cart {
+  id        String     @id @default(cuid())
+  userId    String     @unique
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  
+  // Relations
+  items     CartItem[]
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("carts")
+}
+
+model CartItem {
+  id          String   @id @default(cuid())
+  quantity    Int
+  cartId      String
+  productId   String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  variantInfo Json?
+  
+  // Relations
+  cart        Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  product     Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([cartId, productId])
+  @@index([cartId])
+  @@index([productId])
+  @@map("cart_items")
+}
+
+model Favorite {
+  id        String   @id @default(cuid())
+  userId    String
+  productId String
+  createdAt DateTime @default(now())
+  
+  // Relations
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, productId])
+  @@index([userId])
+  @@index([productId])
+  @@map("favorites")
+}
+
+// ============================================
+// ENUMS
+// ============================================
+
+enum UserRole {
+  USER
+  ADMIN
+  MODERATOR
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+  REJECTED
+  REFUNDED
+}
+
+enum PaymentStatus {
+  PENDING
+  AUTHORIZED
+  CONFIRMED
+  REJECTED
+  CANCELLED
+  REFUNDED
+}

@@ -1,0 +1,397 @@
+.hero {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+.hero-slider {
+  position: relative;
+  width: 100%;
+  cursor: grab;
+  user-select: none;
+}
+
+.hero-slider:active {
+  cursor: grabbing;
+}
+
+.hero-slides {
+  display: flex;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hero-slide {
+  min-width: 100%;
+  position: relative;
+  overflow: hidden;
+  height: 600px;
+  display: flex;
+  align-items: center;
+}
+
+@media (max-width: 1024px) {
+  .hero-slide {
+    height: 500px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-slide {
+    height: 550px;
+  }
+}
+
+/* ИЗОБРАЖЕНИЕ НА ВЕСЬ СЛАЙД */
+.hero-image-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.hero-image-skeleton {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.3) 50%,
+    rgba(255, 255, 255, 0.1) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.hero-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.hero-image.loaded {
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .hero-image {
+    opacity: 0;
+  }
+  
+  .hero-image.loaded {
+    opacity: 0.85;
+  }
+}
+
+.hero-container {
+  position: relative;
+  z-index: 2;
+}
+
+.hero-content {
+  display: flex;
+  align-items: center;
+  min-height: 600px;
+  padding: 80px 0;
+}
+
+@media (max-width: 1024px) {
+  .hero-content {
+    min-height: 500px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-content {
+    min-height: 550px;
+    padding: 60px 0;
+    justify-content: flex-start;
+  }
+}
+
+/* ОВЕРЛЕЙ ДЛЯ СВЕТЛЫХ СЛАЙДОВ - без затемнения */
+.hero-slide-light::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ОВЕРЛЕЙ ДЛЯ ТЕМНОГО СЛАЙДА (Apple) - затемнение */
+.hero-slide-dark::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0.5) 0%,
+    rgba(0, 0, 0, 0.3) 50%,
+    rgba(0, 0, 0, 0.2) 100%
+  );
+  z-index: 1;
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .hero-slide-dark::before {
+    background: rgba(0, 0, 0, 0.5);
+  }
+}
+
+.hero-text {
+  max-width: 600px;
+  position: relative;
+  z-index: 3;
+}
+
+@media (max-width: 768px) {
+  .hero-text {
+    max-width: 50%;
+    text-align: left;
+  }
+}
+
+/* ЧЕРНЫЙ ТЕКСТ для светлых слайдов (по умолчанию) */
+.hero-slide-light .hero-title {
+  font-size: 4rem;
+  font-weight: 700;
+  color: #1F2937;
+  line-height: 1.1;
+  margin-bottom: 24px;
+  letter-spacing: -0.02em;
+  text-shadow: none;
+}
+
+.hero-slide-light .hero-description {
+  font-size: 1.25rem;
+  color: #4B5563;
+  line-height: 1.6;
+  margin-bottom: 32px;
+  font-weight: 400;
+  text-shadow: none;
+}
+
+/* БЕЛЫЙ ТЕКСТ для темного слайда (Apple) */
+.hero-slide-dark .hero-title {
+  font-size: 4rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  line-height: 1.1;
+  margin-bottom: 24px;
+  letter-spacing: -0.02em;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
+}
+
+.hero-slide-dark .hero-description {
+  font-size: 1.25rem;
+  color: #F3F4F6;
+  line-height: 1.6;
+  margin-bottom: 32px;
+  font-weight: 400;
+  text-shadow: 0 2px 15px rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 1024px) {
+  .hero-slide-light .hero-title,
+  .hero-slide-dark .hero-title {
+    font-size: 3rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-slide-light .hero-title,
+  .hero-slide-dark .hero-title {
+    font-size: 1.75rem;
+  }
+  
+  .hero-slide-light .hero-description,
+  .hero-slide-dark .hero-description {
+    font-size: 0.95rem;
+  }
+}
+
+/* КНОПКИ - вертикальное расположение */
+.hero-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 320px;
+}
+
+@media (max-width: 768px) {
+  .hero-actions {
+    align-items: flex-start;
+    max-width: 100%;
+    gap: 12px;
+  }
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 32px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 12px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  white-space: nowrap;
+  border: none;
+  width: 280px;
+  height: 56px;
+}
+
+@media (max-width: 768px) {
+  .btn {
+    padding: 0;
+    font-size: 0.85rem;
+    width: 100%;
+    max-width: 100%;
+    height: 48px;
+  }
+}
+
+/* КНОПКИ для светлых слайдов */
+.hero-slide-light .btn-primary {
+  color: #FFFFFF;
+  background: #00439C;
+  box-shadow: 0 4px 14px rgba(0, 67, 156, 0.4);
+}
+
+.hero-slide-light .btn-primary:hover {
+  background: #003278;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 67, 156, 0.5);
+}
+
+.hero-slide-light .btn-outline {
+  color: #00439C;
+  background: transparent;
+  border: 2px solid #00439C;
+}
+
+.hero-slide-light .btn-outline:hover {
+  color: #FFFFFF;
+  background: #00439C;
+  transform: translateY(-2px);
+}
+
+/* КНОПКИ для темного слайда (Apple) */
+.hero-slide-dark .btn-primary {
+  color: #FFFFFF;
+  background: #00439C;
+  box-shadow: 0 4px 14px rgba(0, 67, 156, 0.4);
+}
+
+.hero-slide-dark .btn-primary:hover {
+  background: #003278;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 67, 156, 0.5);
+}
+
+.hero-slide-dark .btn-outline {
+  color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid #FFFFFF;
+  backdrop-filter: blur(10px);
+}
+
+.hero-slide-dark .btn-outline:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+/* ТОЧКИ НАВИГАЦИИ */
+.hero-dots {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 12px;
+  z-index: 10;
+}
+
+@media (max-width: 768px) {
+  .hero-dots {
+    bottom: 30px;
+  }
+}
+
+/* Точки для светлых слайдов */
+.hero-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(0, 67, 156, 0.3);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.hero-dot:hover {
+  background: rgba(0, 67, 156, 0.6);
+  transform: scale(1.2);
+}
+
+.hero-dot.active {
+  background: #00439C;
+  width: 32px;
+  border-radius: 5px;
+}
+
+/* Точки для темного слайда (Apple) */
+.hero-dot.hero-dot-dark {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.hero-dot.hero-dot-dark:hover {
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.hero-dot.hero-dot-dark.active {
+  background: #FFFFFF;
+}
+
+@media (max-width: 768px) {
+  .hero-dot {
+    width: 8px;
+    height: 8px;
+  }
+  
+  .hero-dot.active {
+    width: 24px;
+  }
+}

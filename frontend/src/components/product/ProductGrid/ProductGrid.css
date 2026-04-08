@@ -1,0 +1,128 @@
+.pgrid-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.pgrid-card {
+  display: flex;
+  flex-direction: column;
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 12px;
+  overflow: hidden;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.pgrid-card:hover {
+  border-color: #00439C;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  transform: translateY(-4px);
+}
+
+.pgrid-image {
+  width: 100%;
+  aspect-ratio: 1;
+  background: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+.pgrid-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.pgrid-no-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.pgrid-no-image svg {
+  color: #D1D5DB;
+}
+
+.pgrid-info {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+}
+
+.pgrid-title {
+  font-size: 15px;
+  font-weight: 500;
+  color: #111827;
+  margin: 0;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 42px;
+}
+
+.pgrid-price-block {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: auto;
+}
+
+.pgrid-price {
+  font-size: 20px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.pgrid-old-price {
+  font-size: 14px;
+  color: #9CA3AF;
+  text-decoration: line-through;
+}
+
+.pgrid-out-of-stock {
+  font-size: 13px;
+  color: #EF4444;
+  font-weight: 500;
+}
+
+@media (max-width: 1024px) {
+  .pgrid-container {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .pgrid-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .pgrid-image {
+    padding: 20px;
+  }
+
+  .pgrid-info {
+    padding: 16px;
+  }
+
+  .pgrid-title {
+    font-size: 14px;
+    min-height: 40px;
+  }
+
+  .pgrid-price {
+    font-size: 18px;
+  }
+}

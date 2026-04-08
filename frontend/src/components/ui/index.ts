@@ -1,0 +1,7 @@
+export { default as Hero } from './Hero'
+export { default as Bestsellers } from './Bestsellers'
+export { default as Categories } from './Categories'
+export { default as AppleCategories } from './AppleCategories'
+export { default as SubCategories } from './SubCategories'
+export { default as Features } from './Features'
+export { default as PromoBanner } from './PromoBanner'
