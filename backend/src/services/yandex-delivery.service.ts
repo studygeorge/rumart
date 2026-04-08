@@ -148,15 +148,14 @@ export class YandexDeliveryService {
     const envToken = process.env.YANDEX_DELIVERY_TOKEN
     const envMode = process.env.YANDEX_DELIVERY_MODE || 'test'
     const envStationId = process.env.YANDEX_PLATFORM_STATION_ID
-    
-    // ✅ ИСПРАВЛЕНО: убрана проверка длины токена
-    this.useProduction = !!(envMode === 'production' && envToken)
+
+    this.useProduction = envMode === 'production' && !!envToken
 
     if (this.useProduction) {
       if (!envStationId) {
         throw new Error('YANDEX_PLATFORM_STATION_ID must be set for production mode')
       }
-      
+
       this.config = {
         apiUrl: 'https://b2b-authproxy.taxi.yandex.net',
         token: envToken!,
@@ -165,7 +164,7 @@ export class YandexDeliveryService {
     } else {
       this.config = {
         apiUrl: process.env.YANDEX_DELIVERY_API_URL || 'https://b2b.taxi.tst.yandex.net',
-        token: envToken || 'y2_AgAAAAD04omrAAAPeAAAAAACRpC94Qk6Z5rUTgOcTgYFECJllXYKFx8',
+        token: envToken || '',
         platformStationId: envStationId || 'fbed3aa1-2cc6-4370-ab4d-59c5cc9bb924'
       }
     }
@@ -173,10 +172,13 @@ export class YandexDeliveryService {
     console.log('===========================================')
     console.log('    YANDEX DELIVERY SERVICE INITIALIZED    ')
     console.log('===========================================')
-    console.log('Mode:', this.useProduction ? '🟢 PRODUCTION' : '🟡 TEST')
+    console.log('Mode:', this.useProduction ? 'PRODUCTION' : 'TEST')
     console.log('API URL:', this.config.apiUrl)
     console.log('Warehouse ID:', this.config.platformStationId)
-    console.log('Token prefix:', this.config.token.substring(0, 25) + '...')
+    console.log(
+      'Token prefix:',
+      this.config.token ? `${this.config.token.substring(0, 25)}...` : 'TOKEN_NOT_SET'
+    )
     if (this.useProduction) {
       console.log('Contract:', '47613512/25')
       console.log('Client ID:', '2a3394b4def04529bb8417c213a803e3')
@@ -271,16 +273,16 @@ export class YandexDeliveryService {
 
       if (params.city) {
         const searchCity = params.city.toLowerCase().trim()
-        
+
         deliveryPoints = deliveryPoints.filter(point => {
           const cityMatch = point.address.city.toLowerCase().includes(searchCity)
           const fullAddressMatch = point.address.fullname.toLowerCase().includes(searchCity)
-          
+
           return cityMatch || fullAddressMatch
         })
-        
+
         console.log(`Filtered ${deliveryPoints.length} points for city: ${params.city}`)
-        
+
         if (deliveryPoints.length === 0) {
           console.log(`No points found for "${params.city}". Try one of: ${uniqueCities.slice(0, 10).join(', ')}`)
         }
@@ -288,7 +290,6 @@ export class YandexDeliveryService {
 
       console.log(`Converted ${deliveryPoints.length} delivery points`)
       return deliveryPoints
-
     } catch (error) {
       console.error('Error in getDeliveryPoints:', error)
       throw error
@@ -300,11 +301,11 @@ export class YandexDeliveryService {
     if (days.length === 0) return 'Не указано'
 
     const dayNames = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб']
-    
+
     if (days.length === 5 && days.every(d => d >= 1 && d <= 5)) {
       return 'Пн-Пт'
     }
-    
+
     if (days.length === 2 && days.includes(0) && days.includes(6)) {
       return 'Сб-Вс'
     }
@@ -323,13 +324,9 @@ export class YandexDeliveryService {
     }>
   }): Promise<{ cost: number; estimatedDeliveryDate: string; deliveryTime: string }> {
     try {
-      const totalWeight = data.items.reduce((sum, item) => 
-        sum + (item.weight || 500) * item.quantity, 0
-      )
-      
-      const totalPrice = data.items.reduce((sum, item) => 
-        sum + item.price * item.quantity, 0
-      )
+      const totalWeight = data.items.reduce((sum, item) => sum + (item.weight || 500) * item.quantity, 0)
+
+      const totalPrice = data.items.reduce((sum, item) => sum + item.price * item.quantity, 0)
 
       const baseCost = this.useProduction ? 350 : 300
       const weightCost = Math.ceil(totalWeight / 1000) * 50
@@ -362,13 +359,13 @@ export class YandexDeliveryService {
   async createDelivery(data: CreateDeliveryRequest): Promise<CreateDeliveryResponse> {
     try {
       const createUrl = `${this.config.apiUrl}/api/b2b/platform/offers/create`
-      
+
       const totalWeight = data.items.reduce((sum, item) => sum + (item.weight * item.quantity), 0)
       const totalPrice = data.items.reduce((sum, item) => sum + (item.price * item.quantity), 0)
 
       const deliveryDate = new Date()
       deliveryDate.setDate(deliveryDate.getDate() + 2)
-      
+
       const deliveryDateEnd = new Date()
       deliveryDateEnd.setDate(deliveryDateEnd.getDate() + 5)
 
@@ -445,8 +442,8 @@ export class YandexDeliveryService {
       }
 
       console.log('===========================================')
-      console.log(`🚚 Creating Yandex delivery order`)
-      console.log(`Mode: ${this.useProduction ? '🟢 PRODUCTION' : '🟡 TEST'}`)
+      console.log('Creating Yandex delivery order')
+      console.log(`Mode: ${this.useProduction ? 'PRODUCTION' : 'TEST'}`)
       console.log('===========================================')
       console.log('Order ID:', data.orderId)
       console.log('From warehouse:', this.config.platformStationId)
@@ -493,12 +490,12 @@ export class YandexDeliveryService {
         }
       }
 
-      console.log('✅ Yandex offers created:', {
+      console.log('Yandex offers created:', {
         offersCount: createData.offers?.length || 0
       })
 
       if (!createData.offers || createData.offers.length === 0) {
-        console.error('❌ No offers returned from Yandex')
+        console.error('No offers returned from Yandex')
         return {
           success: false,
           error: 'No delivery offers available'
@@ -511,7 +508,7 @@ export class YandexDeliveryService {
         return currentPrice < cheapestPrice ? current : cheapest
       })
 
-      console.log('💰 Selected cheapest offer:', {
+      console.log('Selected cheapest offer:', {
         offer_id: cheapestOffer.offer_id,
         price: cheapestOffer.offer_details.price_total || cheapestOffer.offer_details.price,
         delivery_time: cheapestOffer.offer_details.delivery_time
@@ -557,26 +554,25 @@ export class YandexDeliveryService {
         }
       }
 
-      console.log('✅ Yandex delivery order confirmed:', acceptData)
+      console.log('Yandex delivery order confirmed:', acceptData)
 
       const deliveryId = acceptData.request_id || data.orderId
       const trackingUrl = `https://tracking.yandex.ru/${deliveryId}`
 
-      console.log('🎉 Delivery created successfully:', {
+      console.log('Delivery created successfully:', {
         deliveryId,
         trackingUrl
       })
 
       return {
         success: true,
-        deliveryId: deliveryId,
+        deliveryId,
         trackingNumber: deliveryId,
-        trackingUrl: trackingUrl
+        trackingUrl
       }
-
     } catch (error) {
-      console.error('❌ Unexpected error creating delivery:', error)
-      
+      console.error('Unexpected error creating delivery:', error)
+
       return {
         success: false,
         error: error instanceof Error ? error.message : 'Unknown error'
@@ -618,7 +614,7 @@ export class YandexDeliveryService {
       }
     } catch (error) {
       console.error('Error fetching delivery status:', error)
-      
+
       return {
         status: 'UNKNOWN',
         statusDescription: 'Статус неизвестен'
@@ -655,7 +651,7 @@ export class YandexDeliveryService {
 
       const currentStatus = data.state?.status || 'UNKNOWN'
       const currentDescription = data.state?.description || this.translateStatus(currentStatus)
-      
+
       let currentTimestamp: string
       if (data.state?.timestamp) {
         currentTimestamp = data.state.timestamp
@@ -678,12 +674,10 @@ export class YandexDeliveryService {
         description: string
       }> = []
 
-      // ✅ Извлекаем правильный адрес пункта выдачи
       let pickupPointAddress: string | undefined
       const destinationId = data.request?.destination?.platform_station?.platform_id
-      
+
       if (destinationId) {
-        // Получаем информацию о пункте выдачи
         try {
           const pointsUrl = `${this.config.apiUrl}/api/b2b/platform/pickup-points/list`
           const pointsResponse = await fetch(pointsUrl, {
@@ -699,7 +693,7 @@ export class YandexDeliveryService {
           if (pointsResponse.ok) {
             const pointsData: any = await pointsResponse.json()
             const pickupPoint = pointsData.points?.find((p: any) => p.id === destinationId)
-            
+
             if (pickupPoint) {
               pickupPointAddress = pickupPoint.address?.full_address || pickupPoint.name
               console.log('Found pickup point address:', pickupPointAddress)
@@ -717,7 +711,6 @@ export class YandexDeliveryService {
         }
       }
 
-      // Добавляем текущий статус
       statusHistory.push({
         status: currentStatus,
         timestamp: currentTimestamp,
@@ -727,14 +720,13 @@ export class YandexDeliveryService {
 
       console.log('Added current status to history')
 
-      // Добавляем историю из state_history (если есть)
       if (data.state_history && Array.isArray(data.state_history) && data.state_history.length > 0) {
         console.log(`Processing ${data.state_history.length} history items`)
-        
+
         data.state_history.forEach((historyItem: any, index: number) => {
           const historyStatus = historyItem.status || historyItem.state || 'UNKNOWN'
           let historyTimestamp: string
-          
+
           if (historyItem.timestamp) {
             historyTimestamp = historyItem.timestamp
           } else if (historyItem.timestamp_unix) {
@@ -750,7 +742,7 @@ export class YandexDeliveryService {
             description: historyItem.description || this.translateStatus(historyStatus)
           })
 
-          console.log(`  History ${index + 1}:`, {
+          console.log(`History ${index + 1}:`, {
             status: historyStatus,
             timestamp: historyTimestamp
           })
@@ -759,14 +751,10 @@ export class YandexDeliveryService {
         console.log('No state_history in response')
       }
 
-      // Сортируем по времени (новые первыми)
-      statusHistory.sort((a, b) => 
-        new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
-      )
+      statusHistory.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
 
       console.log('Final status history count:', statusHistory.length)
 
-      // Извлекаем интервал доставки
       let estimatedDeliveryDate: string | undefined
       if (data.request?.destination?.interval_utc?.to) {
         estimatedDeliveryDate = data.request.destination.interval_utc.to
@@ -797,18 +785,14 @@ export class YandexDeliveryService {
     }
   }
 
-
   private translateStatus(yandexStatus: string): string {
     const statusMap: Record<string, string> = {
-      // Основные статусы создания
       'DRAFT': 'Заказ создан',
       'VALIDATING': 'Проверка заявки',
       'VALIDATING_ERROR': 'Ошибка подтверждения',
       'CREATED': 'Заказ подтвержден',
       'DELIVERY_PROCESSING_STARTED': 'Создание в сортировочном центре',
       'DELIVERY_TRACK_RECIEVED': 'Создан в системе доставки',
-      
-      // Статусы обработки в сортировочном центре
       'SORTING_CENTER_PROCESSING_STARTED': 'Обработка в сортировочном центре',
       'SORTING_CENTER_TRACK_RECEIVED': 'Обработан в сортировочном центре',
       'SORTING_CENTER_TRACK_LOADED': 'Создан в сортировочном центре',
@@ -817,8 +801,6 @@ export class YandexDeliveryService {
       'SORTING_CENTER_AT_START': 'Поступил в сортировочный центр',
       'SORTING_CENTER_PREPARED': 'Готов к отправке',
       'SORTING_CENTER_TRANSMITTED': 'Доставляется',
-      
-      // Статусы доставки
       'DELIVERY_AT_START': 'Готовится к отправке',
       'DELIVERY_TRANSPORTATION': 'В пути к пункту выдачи',
       'DELIVERY_ARRIVED_PICKUP_POINT': 'Прибыл в пункт выдачи',
@@ -829,16 +811,12 @@ export class YandexDeliveryService {
       'PARTICULARLY_DELIVERED': 'Частично доставлен',
       'DELIVERY_DELIVERED': 'Доставлен получателю',
       'FINISHED': 'Заказ подтвержден',
-      
-      // Статусы отмены
       'CANCELLED': 'Отменен',
       'CANCELLED_BY_RECIPIENT': 'Отменен по просьбе клиента',
       'CANCELLED_USER': 'Отменен пользователем',
       'CANCELLED_IN_PLATFORM': 'Отменен в платформе',
       'SORTING_CENTER_CANCELLED': 'Отменен сортировочным центром',
       'CANCELED_IN_PLATFORM': 'Отменен службой доставки',
-      
-      // Статусы возврата
       'SORTING_CENTER_RETURN_PREPARING': 'Готовится к возврату',
       'SORTING_CENTER_RETURN_PREPARING_SENDER': 'Готов к отправке отправителю',
       'SORTING_CENTER_RETURN_ARRIVED': 'Доставлен отправителю',
@@ -847,12 +825,8 @@ export class YandexDeliveryService {
       'RETURN_ARRIVED_DELIVERY': 'Возвращен на склад',
       'RETURN_READY_FOR_PICKUP': 'Готов для передачи магазину',
       'RETURN_RETURNED': 'Возвращен в магазин',
-      
-      // Статусы обновления
       'DELIVERY_UPDATED_BY_SHOP': 'Обновлен отправителем',
       'DELIVERY_UPDATED_BY_DELIVERY': 'Обновлен получателем',
-      
-      // Старые статусы (для обратной совместимости)
       'NEW': 'Создан',
       'ESTIMATING': 'Расчёт стоимости',
       'ACCEPTED': 'Принят',
@@ -866,10 +840,10 @@ export class YandexDeliveryService {
       'FAILED': 'Ошибка',
       'UNKNOWN': 'Статус неизвестен'
     }
-    
+
     const translated = statusMap[yandexStatus]
     if (!translated) {
-      console.warn(`⚠️ Unknown status: ${yandexStatus}`)
+      console.warn(`Unknown status: ${yandexStatus}`)
       return `Неизвестный статус: ${yandexStatus}`
     }
     return translated
@@ -885,7 +859,7 @@ export class YandexDeliveryService {
         comment: reason
       }
 
-      console.log(`⚠️ Cancelling delivery (${this.useProduction ? 'PRODUCTION' : 'TEST'}):`, {
+      console.log(`Cancelling delivery (${this.useProduction ? 'PRODUCTION' : 'TEST'}):`, {
         deliveryId,
         reason
       })
@@ -912,10 +886,10 @@ export class YandexDeliveryService {
         }
       }
 
-      console.log('✅ Delivery cancelled successfully:', deliveryId)
+      console.log('Delivery cancelled successfully:', deliveryId)
       return { success: true }
     } catch (error) {
-      console.error('❌ Error cancelling delivery:', error)
+      console.error('Error cancelling delivery:', error)
       return {
         success: false,
         error: error instanceof Error ? error.message : 'Unknown error'
