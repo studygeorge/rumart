@@ -162,13 +162,7 @@ export class YandexDeliveryService {
         token: envToken!,
         platformStationId: envStationId
       }
-    } else {
-      this.config = {
-        apiUrl: process.env.YANDEX_DELIVERY_API_URL || 'https://b2b.taxi.tst.yandex.net',
-        token: envToken || 'y2_AgAAAAD04omrAAAPeAAAAAACRpC94Qk6Z5rUTgOcTgYFECJllXYKFx8',
-        platformStationId: envStationId || 'fbed3aa1-2cc6-4370-ab4d-59c5cc9bb924'
-      }
-    }
+    } 
 
     console.log('===========================================')
     console.log('    YANDEX DELIVERY SERVICE INITIALIZED    ')
